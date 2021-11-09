@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+/home/programmer/aulas/atos/workspace/aula1/.metadata/.plugins/org.eclipse.jdt.core
+646308851.index
+1865797976.index
+4227171259.index

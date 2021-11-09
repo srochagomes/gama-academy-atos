@@ -1,0 +1,15 @@
+package br.atos.acelera;
+
+import java.util.Date;
+
+public class Pessoa {
+	
+	String nome;
+	short idade;
+	Date nascimento;
+
+	void dormir() {
+		
+	}
+
+}

@@ -1,0 +1,9 @@
+package br.atos.acelera.dados;
+
+public class Professor extends Funcionario {
+	
+	void lecionar() {
+		
+	}
+
+}

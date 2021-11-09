@@ -1,0 +1,9 @@
+package br.atos.acelera.dados;
+
+public class Aluno extends Pessoa{
+	
+	void estudar() {
+		
+	}
+
+}

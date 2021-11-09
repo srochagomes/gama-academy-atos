@@ -1,0 +1,10 @@
+package br.atos.acelera;
+
+
+
+public class Pessoa {
+	
+	String nome;
+	
+
+}
