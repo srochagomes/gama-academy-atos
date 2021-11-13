@@ -381,9 +381,11 @@
           <tags>persp.viewSC:org.eclipse.ant.ui.views.AntView</tags>
           <tags>persp.viewSC:org.eclipse.datatools.sqltools.result.resultView</tags>
           <tags>persp.perspSC:org.eclipse.datatools.sqltools.sqleditor.perspectives.EditorPerspective</tags>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_YyTBEUJ2EeywkdO6hfvVng" selectedElement="_YyTBGUJ2EeywkdO6hfvVng" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_YyTBEUJ2EeywkdO6hfvVng" selectedElement="_YyTBEkJ2EeywkdO6hfvVng" horizontal="true">
             <children xsi:type="basic:PartStack" xmi:id="_YyTBEkJ2EeywkdO6hfvVng" elementId="org.eclipse.debug.internal.ui.NavigatorFolderView" containerData="2284" selectedElement="_YyTBFEJ2EeywkdO6hfvVng">
               <tags>org.eclipse.e4.primaryNavigationStack</tags>
+              <tags>active</tags>
+              <tags>noFocus</tags>
               <children xsi:type="advanced:Placeholder" xmi:id="_YyTBE0J2EeywkdO6hfvVng" elementId="org.eclipse.debug.ui.DebugView" ref="_zapqoEJ0EeywkdO6hfvVng" closeable="true">
                 <tags>View</tags>
                 <tags>categoryTag:Debug</tags>
@@ -527,8 +529,6 @@
       <children xsi:type="basic:PartStack" xmi:id="_er3LkUJtEeywkdO6hfvVng" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_BxIUAENREeykoMVwyl5_6A">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
-        <tags>active</tags>
-        <tags>noFocus</tags>
         <children xsi:type="basic:Part" xmi:id="_GCH44EJxEeywkdO6hfvVng" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Aluno.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Aluno.java&quot; partName=&quot;Aluno.java&quot; title=&quot;Aluno.java&quot; tooltip=&quot;aula-poo/src/br/atos/acelera/dados/Aluno.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/aula-poo/src/br/atos/acelera/dados/Aluno.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;509&quot; selectionTopPixel=&quot;250&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
@@ -654,8 +654,6 @@
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
-          <tags>active</tags>
-          <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_OFwHUENREeykoMVwyl5_6A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ExecutaProgramaInterface.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ExecutaProgramaInterface.java&quot; partName=&quot;ExecutaProgramaInterface.java&quot; title=&quot;ExecutaProgramaInterface.java&quot; tooltip=&quot;aula-poo/src/br/atos/acelera/processa/ExecutaProgramaInterface.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/aula-poo/src/br/atos/acelera/processa/ExecutaProgramaInterface.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;944&quot; selectionTopPixel=&quot;29&quot;/>&#xA;&lt;/editor>"/>
@@ -737,6 +735,8 @@
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view CommonNavigator.LINKING_ENABLED=&quot;0&quot; currentWorkingSetName=&quot;Aggregate for window 1636579853161&quot; org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets=&quot;0&quot;>&#xA;&lt;lastRecentlyUsedFilters/>&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
+      <tags>active</tags>
+      <tags>activeOnClose</tags>
       <menus xmi:id="_evqtgEJtEeywkdO6hfvVng" elementId="org.eclipse.ui.navigator.ProjectExplorer">
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
@@ -1026,7 +1026,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_eqZzAEJtEeywkdO6hfvVng" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_UGOI0EP9EeyNN4YIcZs5rg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_eeW710JtEeywkdO6hfvVng"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_oecRQEQgEeywvJiYFGin5g" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_eeW710JtEeywkdO6hfvVng"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_eqZzAUJtEeywkdO6hfvVng" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -1066,7 +1066,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_eqZzCEJtEeywkdO6hfvVng" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_UGP-AEP9EeyNN4YIcZs5rg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_eeW7fkJtEeywkdO6hfvVng"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_oeetgEQgEeywvJiYFGin5g" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_eeW7fkJtEeywkdO6hfvVng"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_eqZzCUJtEeywkdO6hfvVng" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -3572,7 +3572,7 @@
   <addons xmi:id="_edupB0JtEeywkdO6hfvVng" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_edupCEJtEeywkdO6hfvVng" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_eeIRkEJtEeywkdO6hfvVng" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_oD1_8UQgEeywvJiYFGin5g" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_eeSpoEJtEeywkdO6hfvVng" elementId="org.eclipse.ui.category.edit" name="Edit"/>
   <categories xmi:id="_eeSpoUJtEeywkdO6hfvVng" elementId="org.eclipse.mylyn.wikitext.ui.editor.category" name="WikiText Markup Editing Commands" description="commands for editing lightweight markup"/>
