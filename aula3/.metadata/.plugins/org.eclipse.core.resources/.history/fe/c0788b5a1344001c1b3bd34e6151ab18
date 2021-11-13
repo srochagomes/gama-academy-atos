@@ -1,0 +1,24 @@
+package br.atos.acelera.pagtos;
+
+public enum FormaPagamento {
+	
+	DINHEITO("Dinheiro"),
+	CHEQUE("Dinheiro"),
+	CARTAO_CREDITO("Cartão de Credito"),
+	PIX("Pix"),
+	NAO_IDENTIFICADO;
+	
+	FormaPagamento(String desc){
+		this.descricao = desc;
+	}
+	
+	FormaPagamento(){
+	}
+	
+	private String descricao;
+	
+	
+
+	
+	
+}

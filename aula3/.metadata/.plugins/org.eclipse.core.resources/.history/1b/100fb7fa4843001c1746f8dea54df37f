@@ -1,0 +1,7 @@
+package br.atos.acelera.tarefa;
+
+public class ProcessMeuFrameWork {
+	public void processaOperacao(Operacao op) {		
+		op.executar();
+	}
+}

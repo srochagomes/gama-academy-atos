@@ -1,0 +1,45 @@
+package br.atos.acelera.processa;
+
+import br.atos.acelera.dados.Aluno;
+import br.atos.acelera.dados.Funcionario;
+import br.atos.acelera.dados.Pessoa;
+import br.atos.acelera.dados.Professor;
+
+public class ExecutaPrograma{
+	
+	public static void main(String[] args) {
+		Pessoa pessoa = null;
+		pessoa = new Pessoa();
+		pessoa = new Pessoa();
+		pessoa.dormir();
+		pessoa.nome = "Antonio";
+		pessoa.altura = 1.60f;		
+		
+		Aluno aluno = new Aluno();
+		aluno.dormir();
+		aluno.nome = "Bernardo";
+		aluno.altura = 1.65f;
+		
+		Funcionario funcionario = new Funcionario();
+		funcionario.dormir();
+		funcionario.nome = "Carlos";
+		funcionario.altura = 1.70f;
+		
+		Professor professor = new Professor();
+		professor.dormir();
+		professor.nome = "Daniel";
+		professor.altura = 1.80f;
+		
+		aluno.dormir((short)19);
+
+		System.out.println("Pessoa = "+pessoa.nome + " " +pessoa.altura);
+		System.out.println("Aluno = "+aluno.nome + " " +aluno.altura);
+		System.out.println("Funcionario = "+funcionario.nome + " " +funcionario.altura);
+		System.out.println("Professor = "+professor.nome + " " +professor.altura);
+		
+		pessoa = null;		
+		aluno.crescer();
+		
+	}
+
+}

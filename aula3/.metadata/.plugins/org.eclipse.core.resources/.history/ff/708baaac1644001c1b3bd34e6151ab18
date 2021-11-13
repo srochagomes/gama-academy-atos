@@ -1,0 +1,6 @@
+package br.atos.acelera.anotacao;
+
+
+public @interface PropriedadeSegura {
+
+}

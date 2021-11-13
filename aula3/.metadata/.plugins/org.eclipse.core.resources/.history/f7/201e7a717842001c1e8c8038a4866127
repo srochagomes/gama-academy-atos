@@ -1,0 +1,49 @@
+package br.atos.acelera.processa;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import br.atos.acelera.dados.Aluno;
+import br.atos.acelera.dados.Funcionario;
+import br.atos.acelera.dados.Pessoa;
+import br.atos.acelera.dados.Professor;
+
+public class ExecutaPrograma extends Pessoa{
+	
+	public static void main(String[] args) {
+		new Pessoa();
+		Pessoa pessoa =  Pessoa.getInstance();
+		Pessoa pessoa1 =  Pessoa.getInstance();
+		pessoa.dormir();		
+		pessoa.altura = 1.60f;		
+		
+		Aluno aluno = new Aluno();
+		Aluno aluno2 = new Aluno();
+		aluno.dormir();
+		aluno.nome = "Bernardo";
+		aluno.altura = 1.65f;
+		
+		Funcionario funcionario = new Funcionario();
+		funcionario.dormir();
+		funcionario.nome = "Carlos";
+		funcionario.altura = 1.70f;
+		
+		Professor professor = new Professor();
+		professor.dormir();
+		professor.nome = "Daniel";
+		professor.altura = 1.80f;
+		
+		aluno.dormir((short)19);
+
+		System.out.println("Pessoa = "+pessoa.nome + " " +pessoa.altura);
+		System.out.println("Aluno = "+aluno.nome + " " +aluno.altura);
+		System.out.println("Funcionario = "+funcionario.nome + " " +funcionario.altura);
+		System.out.println("Professor = "+professor.nome + " " +professor.altura);
+		
+		pessoa = null;		
+		aluno.crescer();
+		
+	}
+
+}

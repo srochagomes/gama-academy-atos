@@ -1,0 +1,7 @@
+package br.atos.acelera.atividade;
+
+interface Financa1 {
+	
+	public void pagarBoletos();
+
+}

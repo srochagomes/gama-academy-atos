@@ -1,0 +1,42 @@
+package br.atos.acelera.dados;
+
+import java.util.Date;
+
+public class Pessoa {
+	
+	public static float altura;
+	
+	public String nome;
+	short idade;
+	Date nascimento;
+	
+	static {
+		System.out.println("Bloco Stático huhuhuhu....");
+	}
+	
+	{
+		System.out.println("Bloco Anonimo heheheheheh");
+	}
+	
+	protected Pessoa() {
+		System.out.println("Construtor heheheheheh");	
+	}
+	
+
+	public void dormir() {
+		System.out.println("Pessoa dormindo 7hrs");
+		this.acordar();
+	}
+	
+	long acordar() {
+		
+		
+		return 0l;
+	}
+	
+	public static void crescer() {
+			
+	}
+	
+
+}

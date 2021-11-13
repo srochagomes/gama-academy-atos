@@ -1,0 +1,35 @@
+package br.atos.acelera.dados;
+
+import br.atos.acelera.anotacao.AplicaSeguranca;
+import br.atos.acelera.anotacao.Seguranca;
+
+@AplicaSeguranca(tipoSeguranca = Seguranca.BASICA)
+public class Aluno extends Pessoa{
+	
+	@AplicaSeguranca(tipoSeguranca = Seguranca.BASICA)
+	public Aluno() {
+		super("");
+	}
+	
+	@AplicaSeguranca(tipoSeguranca = Seguranca.BASICA)
+	void estudar() {
+		
+	}
+
+	@AplicaSeguranca(tipoSeguranca = Seguranca.OAUTH)	
+	public void dormir() {
+		System.out.println("Aluno dormindo 9hrs");
+		super.dormir();
+	}
+
+
+	@AplicaSeguranca(tipoSeguranca = Seguranca.X509)		
+	public void dormir(short tempo) {
+		System.out.println("Aluno dormindo "+tempo+"hrs");
+		super.dormir();	
+		
+	}
+	
+
+
+}

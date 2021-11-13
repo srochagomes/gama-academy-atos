@@ -1,0 +1,25 @@
+package br.atos.acelera.dados;
+
+import java.util.Date;
+
+public class Funcionario extends Pessoa {
+	
+	long numeroMatricula;
+	
+	public Funcionario() {
+		System.out.println("Construtor Funcionario sem argumento ");	
+	}
+	
+	
+	public Funcionario(String aNome, short aIdade, Date aNascimento) {
+		super(aNome);
+		System.out.println("Construtor Funcionario com todos argumentos ");
+		
+		this.idade = aIdade;
+		this.nascimento = aNascimento;
+		
+		
+	}
+	
+	
+}

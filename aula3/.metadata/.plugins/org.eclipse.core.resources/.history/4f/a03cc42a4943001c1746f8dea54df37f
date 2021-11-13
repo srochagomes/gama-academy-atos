@@ -1,0 +1,7 @@
+package br.atos.acelera.tarefa;
+
+public abstract class Operacao {
+	
+	public abstract void executar();
+
+}

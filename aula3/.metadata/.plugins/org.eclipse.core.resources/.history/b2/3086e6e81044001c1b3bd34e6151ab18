@@ -1,0 +1,63 @@
+package br.atos.acelera.processa;
+
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import br.atos.acelera.dados.Funcionario;
+import br.atos.acelera.dados.Matematica;
+import br.atos.acelera.dados.Materia;
+import br.atos.acelera.dados.Pessoa;
+import br.atos.acelera.dados.Portugues;
+import br.atos.acelera.dados.Professor;
+import br.atos.acelera.dados.Professor.ProfessorBuilder;
+import br.atos.acelera.generico.MaquinaTipo;
+
+public class ExecutaProgramaGenerics {
+	
+	
+	public static void main(String[] args) {
+			
+		
+		List<Pessoa> lista = new ArrayList<>();	
+		
+		
+		Pessoa single = Pessoa.getInstance();
+		single.setNome("Single");
+		lista.add(single);
+		Funcionario funcionario = new Funcionario("Antonio", (short)25, new Date());
+		
+		lista.add(funcionario);
+		lista.add(ProfessorBuilder.iniciar()
+				.comNome("Karen")
+				.comNome("Jeferson")
+				.comIdade((short)19)
+				.comSalario(5000.0)
+				.construir());
+		
+		Materia materia = new Materia();
+		materia.setDescricao("Portugues");
+		//lista.add(materia);
+		
+		lista.stream().forEach(e -> { 
+			if (e instanceof Pessoa) {
+				System.out.println(((Pessoa)e).getNome());	
+			}
+		});
+
+		
+		MaquinaTipo<Funcionario, Portugues> maquina = new MaquinaTipo<>();
+		
+		Portugues mat = new Portugues();
+		mat.setDescricao("Portugues");
+		maquina.tratarEstudo(mat);
+		
+		maquina.tratarHumano(funcionario);	
+		
+		
+	}
+	
+
+
+}

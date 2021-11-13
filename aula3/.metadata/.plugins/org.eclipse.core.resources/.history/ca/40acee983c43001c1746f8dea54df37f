@@ -1,0 +1,5 @@
+package br.atos.acelera.tarefa;
+
+public abstract class Locomocao extends Operacao{
+
+}

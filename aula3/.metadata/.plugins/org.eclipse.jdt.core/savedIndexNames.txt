@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+/home/programmer/aulas/atos/workspace/gama-academy-atos/aula3/.metadata/.plugins/org.eclipse.jdt.core
+1865797976.index
+4227171259.index
+646308851.index

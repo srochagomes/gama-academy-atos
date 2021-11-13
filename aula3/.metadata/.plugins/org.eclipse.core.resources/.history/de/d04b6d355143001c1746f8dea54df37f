@@ -1,0 +1,11 @@
+package br.atos.acelera.atividade;
+
+public class Banco {
+	
+	
+	public void processarOperacoesBancarias(final Financa financa) {
+		
+	}
+	
+
+}

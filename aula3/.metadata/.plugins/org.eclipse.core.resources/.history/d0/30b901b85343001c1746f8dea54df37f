@@ -1,0 +1,9 @@
+package br.atos.acelera.atividade;
+
+public interface Financa2 {
+	
+	default void sacarDinheiro() {
+		System.out.println("Teste");
+	}
+
+}

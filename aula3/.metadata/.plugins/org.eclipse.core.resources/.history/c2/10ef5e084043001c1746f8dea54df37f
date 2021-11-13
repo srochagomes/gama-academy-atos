@@ -1,0 +1,20 @@
+package br.atos.acelera.processa;
+
+import br.atos.acelera.comunica.Comunicacao;
+import br.atos.acelera.comunica.MaquinaIntegradora;
+import br.atos.acelera.tarefa.Alimentacao;
+import br.atos.acelera.tarefa.Locomocao;
+import br.atos.acelera.tarefa.Operacao;
+import br.atos.acelera.tarefa.ProcessMeuFrameWork;
+
+public class ExecutaProgramaAbstractEnvia {
+	
+	public static void main(String[] args) {
+		MaquinaIntegradora maquina = new MaquinaIntegradora();
+		
+		
+		Comunicacao comunicao;
+		maquina.processar(comunicao);
+	}
+
+}

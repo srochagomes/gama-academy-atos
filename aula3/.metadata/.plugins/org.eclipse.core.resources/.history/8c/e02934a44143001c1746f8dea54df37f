@@ -1,0 +1,7 @@
+package br.atos.acelera.comunica;
+
+public abstract class Comunicacao {
+	
+	public abstract void enviar();
+
+}

@@ -1,0 +1,19 @@
+package br.atos.acelera.processa;
+
+import br.atos.acelera.tarefa.Alimentacao;
+import br.atos.acelera.tarefa.Locomocao;
+import br.atos.acelera.tarefa.Operacao;
+
+public class ExecutaProgramaAbstract {
+	
+	public static void main(String[] args) {
+		Operacao operacao = new Locomocao();
+		
+		operacao.executar();
+		
+		operacao = new Alimentacao();
+		
+		operacao.executar();
+	}
+
+}

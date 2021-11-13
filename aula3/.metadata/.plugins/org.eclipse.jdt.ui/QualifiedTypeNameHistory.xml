@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.Calendar"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.tarefa.Operacao"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.tarefa.ProcessMeuFrameWork"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.tarefa.Alimentacao"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.comunica.MaquinaIntegradora"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.comunica.Email"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.comunica.Sms"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.comunica.ApiSoap"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.tarefa.Locomocao"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.atividade.Banco"/>
+    <fullyQualifiedTypeName name="java.lang.ProcessBuilder"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.atividade.Financa2"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.atividade.Financa"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Funcionario"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Professor.ProfessorBuilder"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Professor"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Pessoa"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Materia"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.processa.ExecutaProgramaGenerics"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Matematica"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.dados.Portugues"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.generico.MaquinaTipo"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.comunica.ApiRest"/>
+    <fullyQualifiedTypeName name="javax.management.remote.SubjectDelegationPermission"/>
+    <fullyQualifiedTypeName name="java.util.stream.Stream"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.pagtos.FormaPagamento"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.lang.Deprecated"/>
+    <fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
+    <fullyQualifiedTypeName name="java.lang.annotation.Retention"/>
+    <fullyQualifiedTypeName name="java.lang.annotation.RetentionPolicy"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.anotacao.AplicaSeguranca"/>
+    <fullyQualifiedTypeName name="br.atos.acelera.anotacao.Seguranca"/>
+    <fullyQualifiedTypeName name="java.lang.annotation.Target"/>
+    <fullyQualifiedTypeName name="java.lang.annotation.ElementType"/>
+    <fullyQualifiedTypeName name="java.util.GregorianCalendar"/>
+</qualifiedTypeNameHistroy>

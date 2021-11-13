@@ -1,0 +1,10 @@
+package br.atos.acelera.pagtos;
+
+public enum FormaPagamento {
+	
+	DINHEITO,
+	CHEQUE,
+	CARTAO_CREDITO,
+	PIX;
+
+}

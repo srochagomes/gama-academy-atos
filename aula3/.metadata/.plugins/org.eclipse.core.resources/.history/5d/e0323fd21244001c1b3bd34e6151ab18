@@ -1,0 +1,13 @@
+package br.atos.acelera.processa;
+
+import br.atos.acelera.pagtos.FormaPagamento;
+
+public class ExecutaProgramaEnum {
+	
+	public static void main(String[] args) {
+		
+		
+		System.out.println(FormaPagamento.values());
+	}
+
+}

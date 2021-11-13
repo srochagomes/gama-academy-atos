@@ -1,0 +1,94 @@
+package br.atos.acelera.dados;
+
+import java.util.Date;
+
+public class Professor extends Funcionario {
+	
+
+	public Professor(String aNome, short aIdade, Date aNascimento, String materia, int identificador,
+			int mediaNotasAlunos, int notaBimestre, double salario, int qtDiasTrabalhados, int qtMesesTrabalhados,
+			int qtAnosTrabalhados) {
+		super(aNome, aIdade, aNascimento);
+		this.materia = materia;
+		this.identificador = identificador;
+		this.mediaNotasAlunos = mediaNotasAlunos;
+		this.notaBimestre = notaBimestre;
+		this.salario = salario;
+		this.qtDiasTrabalhados = qtDiasTrabalhados;
+		this.qtMesesTrabalhados = qtMesesTrabalhados;
+		this.qtAnosTrabalhados = qtAnosTrabalhados;
+	}
+
+	public String materia;
+	public int identificador;
+	public int mediaNotasAlunos;
+	public int notaBimestre;
+	public double salario;
+	public int qtDiasTrabalhados;
+	public int qtMesesTrabalhados;
+	public int qtAnosTrabalhados;	
+	
+	
+	
+	
+	
+	void lecionar() {
+		
+	}
+
+	public void dormir() {
+		System.out.println("Professor dormindo 5hrs");
+		
+	}
+	
+	public static class ProfessorBuilder{
+		private String nomeBuilder;
+		private short idadeBuilder;
+		private Date nascimentoBuilder;		
+		private String materiaBuilder;
+		private int identificadorBuilder;
+		private int mediaNotasAlunosBuilder;
+		private int notaBimestreBuilder;
+		private double salarioBuilder;
+		private int qtDiasTrabalhadosBuilder;
+		private int qtMesesTrabalhadosBuilder;
+		private int qtAnosTrabalhadosBuilder;
+		
+		public static ProfessorBuilder iniciar() {
+			return new ProfessorBuilder();	
+		}
+		
+		public Professor construir() {
+			return new Professor(this.nomeBuilder, this.idadeBuilder, 
+					this.nascimentoBuilder, this.materiaBuilder, this.identificadorBuilder,
+					this.mediaNotasAlunosBuilder, this.notaBimestreBuilder, this.salarioBuilder, 
+					this.qtDiasTrabalhadosBuilder, this.qtMesesTrabalhadosBuilder, this.qtAnosTrabalhadosBuilder);	
+		}
+		
+		public ProfessorBuilder comNome(String aNome) {
+			this.nomeBuilder = aNome;
+			return this;
+		}
+
+		public ProfessorBuilder comIdade(short aIdade) {
+			this.idadeBuilder = aIdade;
+			return this;			
+			
+		}
+		public ProfessorBuilder comNascimento(Date aDate) {
+			this.nascimentoBuilder = aDate;
+			return this;			
+			
+		}
+		
+		public ProfessorBuilder comNascimento(Date aDate) {
+			this.nascimentoBuilder = aDate;
+			return this;			
+			
+		}
+		
+		
+				
+	}
+
+}

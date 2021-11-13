@@ -1,0 +1,19 @@
+package br.atos.acelera.dados;
+
+import java.util.Date;
+
+public class Funcionario extends Pessoa {
+	
+	private long numeroMatricula;
+	
+	public Funcionario(String aNome,short aIdade, Date aNascimento) {
+		super(aNome);
+		this.setIdade(aIdade);
+		this.setNascimento(aNascimento);
+		
+	}
+	
+	
+	
+	
+}

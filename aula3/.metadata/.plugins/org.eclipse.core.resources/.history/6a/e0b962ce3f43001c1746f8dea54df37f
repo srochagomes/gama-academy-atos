@@ -1,0 +1,11 @@
+package br.atos.acelera.comunica;
+
+public class Email extends Comunicacao {
+
+	@Override
+	public void enviar() {
+		// TODO Auto-generated method stub
+
+	}
+
+}
