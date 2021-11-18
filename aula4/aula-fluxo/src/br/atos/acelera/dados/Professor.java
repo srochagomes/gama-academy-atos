@@ -2,8 +2,9 @@ package br.atos.acelera.dados;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Professor extends Funcionario {
+public class Professor extends Funcionario implements Comparable<Professor> {
 	
 
 	private static final int SALARIO_BONUS = 3000;
@@ -204,6 +205,11 @@ public class Professor extends Funcionario {
 
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(identificador);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -212,7 +218,6 @@ public class Professor extends Funcionario {
 		if (getClass() != obj.getClass())
 			return false;
 		Professor other = (Professor) obj;
-		
 		return identificador == other.identificador;
 	}
 
@@ -230,8 +235,38 @@ public class Professor extends Funcionario {
 				this.getQtDiasTrabalhados()+10);
 		
 	}
+
+	@Override
+	public int compareTo(Professor outro) {
+		// -1 o argumento é antes do this
+		// 0 argumento e this são iguais
+		// 1 this é anterior argumento	
+		
+		Integer thisIndentificador = 
+				Optional.ofNullable(this.getIdentificador()).orElse(-1);
+		Integer outroIndentificador = 
+				Optional.ofNullable(outro.getIdentificador()).orElse(-1);
+		
+				
+		return thisIndentificador.compareTo(outroIndentificador);
+		
+	}
+
+	@Override
+	public String toString() {
+		return "Professor - identificador=" + this.identificador 
+				+ ", nome=" + this.getNome()
+				+ ", idade=" + this.getIdade();
+	}
 	
+
 	
+	public boolean ehDeMaiorque25() {
+		return this.getIdade() > 25;
+	}
 	
+	public boolean ehDeMaiorque(short v) {
+		return this.getIdade() > v;
+	}
 
 }
