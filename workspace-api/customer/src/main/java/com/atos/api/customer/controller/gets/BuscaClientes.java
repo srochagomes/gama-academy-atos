@@ -13,9 +13,9 @@ import com.atos.api.customer.domain.CustomerVO;
 @RestController
 public class BuscaClientes extends RootController{
 	
-	
-	@GetMapping(value="v1",produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public ResponseEntity<CustomerVO> bustar(){
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}
+	, headers = "versao=1")
+	public ResponseEntity<CustomerVO> buscar(){
 		CustomerVO customer = new CustomerVO();
 		
 		customer.setCodigo(1);
@@ -26,5 +26,20 @@ public class BuscaClientes extends RootController{
 		
 		
 	}
+	
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}
+	, headers = "versao=2")
+	public ResponseEntity<CustomerVO> buscarV2(){
+		CustomerVO customer = new CustomerVO();
+		
+		customer.setCodigo(1);
+		customer.setEndereco("Rua 1");
+		customer.setNome("Antonio");
+		
+		return ResponseEntity.ok(customer);
+		
+		
+	}
+	
 
 }
