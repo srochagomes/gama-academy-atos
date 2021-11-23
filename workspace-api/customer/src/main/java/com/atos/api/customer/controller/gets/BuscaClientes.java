@@ -1,45 +1,38 @@
 package com.atos.api.customer.controller.gets;
 
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atos.api.customer.controller.RootController;
+import com.atos.api.customer.conflict.InterfaceConflito;
+import com.atos.api.customer.controller.RootControllerV1;
 import com.atos.api.customer.domain.CustomerVO;
+import com.atos.api.customer.repository.CustomerRepository;
 
 @RestController
-public class BuscaClientes extends RootController{
+public class BuscaClientes extends RootControllerV1{
 	
-	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}
-	, headers = "versao=1")
-	public ResponseEntity<CustomerVO> buscar(){
-		CustomerVO customer = new CustomerVO();
-		
-		customer.setCodigo(1);
-		customer.setEndereco("Rua 1");
-		customer.setNome("Antonio");
-		
-		return ResponseEntity.ok(customer);
-		
-		
-	}
+	@Autowired
+	private CustomerRepository repository ;
 	
-	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}
-	, headers = "versao=2")
-	public ResponseEntity<CustomerVO> buscarV2(){
-		CustomerVO customer = new CustomerVO();
-		
-		customer.setCodigo(1);
-		customer.setEndereco("Rua 1");
-		customer.setNome("Antonio");
-		
-		return ResponseEntity.ok(customer);
+	@Autowired	
+	private List<InterfaceConflito> conflito;
+	
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, 
+			MediaType.APPLICATION_XML})
+	public ResponseEntity<List<CustomerVO>> buscar(){
 		
 		
-	}
+		
+		return ResponseEntity.ok(repository.getAll());		
+		
+	}	
 	
 
 }

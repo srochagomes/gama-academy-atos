@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/v1/customers")
 @Api(tags = "Customers")
-public class RootController {
+public class RootControllerV1 {
 
 }

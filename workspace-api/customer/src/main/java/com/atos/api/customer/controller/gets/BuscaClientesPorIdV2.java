@@ -14,24 +14,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atos.api.customer.controller.RootControllerV1;
+import com.atos.api.customer.controller.RootControllerV2;
 import com.atos.api.customer.domain.CustomerVO;
 import com.atos.api.customer.repository.CustomerRepository;
 
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class BuscaClientesPorId extends RootControllerV1{
+public class BuscaClientesPorIdV2 extends RootControllerV2{
 	
-	@Autowired
+		
 	private CustomerRepository repository;
-
 	
+	public BuscaClientesPorIdV2(CustomerRepository rep) {
+		this.repository = rep;		
+	}
+	
+
 	@GetMapping(value="/{id}",produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@ApiOperation("Search account by id")
 	public ResponseEntity<CustomerVO> buscar(
-			@PathVariable("id") Integer codigo){		
+			@PathVariable("id") Integer codigo){
 		
 		return ResponseEntity.ok(repository.getByID(codigo));
+		
 		
 	}
 	
