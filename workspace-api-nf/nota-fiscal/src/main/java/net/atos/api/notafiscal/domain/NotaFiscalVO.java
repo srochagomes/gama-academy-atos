@@ -7,19 +7,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class NotaFiscal {
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
+public class NotaFiscalVO {
+
+	private Long id;
+	
+	@NotNull(message = "Campo data de emissão não pode ser nula")
 	private LocalDate dataEmissao;
 	
+	@NotNull(message = "Campo data de Lançamento não pode ser nula")
 	private LocalDateTime dataLancamento;
 	
-	private OperacaoFiscal operacaoFiscal;
 	
+	@NotNull(message = "Campo Operacao Fiscal não pode ser nulo")
+	private OperacaoFiscalEnum operacaoFiscal;
+	
+	@NotNull(message="Campo Valor não pode ser nulo")
+	@Positive
 	private BigDecimal valor;
-	
+		
+	@NotNull(message = "Campo Documento não pode ser nulo")
 	private String documento;
 	
-	private List<Item> itens;
+	
+	@NotNull(message = "Campo Itens deve ter pelo menos um item")
+	@Size(min = 1, message = "Campo Itens deve ter pelo menos um item")
+	@Valid
+	private List<ItemVO> itens;
 	
 	
 	public LocalDate getDataEmissao() {
@@ -38,11 +56,11 @@ public class NotaFiscal {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public OperacaoFiscal getOperacaoFiscal() {
+	public OperacaoFiscalEnum getOperacaoFiscal() {
 		return operacaoFiscal;
 	}
 
-	public void setOperacaoFiscal(OperacaoFiscal operacaoFiscal) {
+	public void setOperacaoFiscal(OperacaoFiscalEnum operacaoFiscal) {
 		this.operacaoFiscal = operacaoFiscal;
 	}
 
@@ -62,20 +80,28 @@ public class NotaFiscal {
 		this.documento = documento;
 	}
 
-	public List<Item> getItens() {
+	public List<ItemVO> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<Item> itens) {
+	public void setItens(List<ItemVO> itens) {
 		this.itens = itens;
 	}
 
-	public void add(Item item) {
-		List<Item> itensLocal = 
+	public void add(ItemVO item) {
+		List<ItemVO> itensLocal = 
 				Optional.ofNullable(this.getItens()).orElseGet(()->new ArrayList());		
 		itensLocal.add(item);
 		
 		this.itens = itensLocal; 
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	

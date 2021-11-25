@@ -2,10 +2,19 @@ package net.atos.api.notafiscal.domain;
 
 import java.math.BigDecimal;
 
-public class Item {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+public class ItemVO {
 	
+	@NotNull(message = "Campo Codigo produto não pode ser nulo")
 	private Integer codigoProduto;
+	
+	@NotNull(message="Campo NCM não pode ser nulo")
 	private String ncm;
+	
+	@NotNull(message = "Campo Valor do Item não pode ser nulo")	
+	@Positive
 	private BigDecimal valor;
 	
 	

@@ -1,6 +1,6 @@
 package net.atos.api.notafiscal.domain;
 
-public enum OperacaoFiscal {
+public enum OperacaoFiscalEnum {
 	
 	VENDA,
 	DEVOLUCAO
