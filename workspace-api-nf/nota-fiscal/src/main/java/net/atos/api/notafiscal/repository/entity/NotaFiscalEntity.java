@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,6 +29,9 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 
 @Entity
 @Table(name = "TB_NOTA_FISCAL")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="OP_FISCAL", 
+	discriminatorType = DiscriminatorType.STRING)
 public class NotaFiscalEntity {
 	
 	@Id

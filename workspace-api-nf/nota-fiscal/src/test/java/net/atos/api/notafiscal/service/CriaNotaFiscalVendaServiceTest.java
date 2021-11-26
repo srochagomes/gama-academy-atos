@@ -6,13 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
@@ -21,6 +24,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,18 +40,20 @@ import net.atos.api.notafiscal.domain.ItemVO;
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 import net.atos.api.notafiscal.repository.NotaFiscalRepository;
+import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
+import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class CriaNotaFiscalServiceTest {
+public class CriaNotaFiscalVendaServiceTest {
 	
 	
-	private CriaNotaFiscalService criaNotaFiscal;
+	private CriaNotaFiscalVendaService criaNotaFiscal;
 	
 	private Validator validator;
 	
-	private NotaFiscalRepository notaFiscalRepositoy;
+	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	
 	
 	
@@ -62,9 +68,9 @@ public class CriaNotaFiscalServiceTest {
 	@BeforeEach
 	public void iniciarCadaTeste() {
 		
-		this.notaFiscalRepositoy = Mockito.mock(NotaFiscalRepository.class);
+		this.notaFiscalRepositoy = Mockito.mock(NotaFiscalVendaRepository.class);
 		
-		criaNotaFiscal = new CriaNotaFiscalService(validator, notaFiscalRepositoy);	
+		criaNotaFiscal = new CriaNotaFiscalVendaService(validator, notaFiscalRepositoy);	
 	}
 
 	@Test
@@ -177,8 +183,8 @@ public class CriaNotaFiscalServiceTest {
 	@Test	
 	@DisplayName("Testa a persistencia da nota fiscal.")
 	public void test_quando_dadosPreenchidos_notaFiscalCriada() {
-		assertNotNull(criaNotaFiscal);
-
+		assertNotNull(criaNotaFiscal);	
+		
 		NotaFiscalVO notaFiscal =  new NotaFiscalVO();
 		notaFiscal.setDataEmissao(LocalDate.now());		
 		notaFiscal.setDataLancamento(LocalDateTime.now());
@@ -196,10 +202,6 @@ public class CriaNotaFiscalServiceTest {
 		
 		then(notaFiscalRepositoy).should(times(1)).save(any());
 		
-		
-		
 	}
 
-	
-	
 }

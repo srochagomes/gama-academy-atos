@@ -40,6 +40,9 @@ public class NotaFiscalVO {
 	private List<ItemVO> itens;
 	
 	
+	private Long idNotaFiscalVenda;	
+	
+	
 	public LocalDate getDataEmissao() {
 		return dataEmissao;
 	}
@@ -102,6 +105,14 @@ public class NotaFiscalVO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getIdNotaFiscalVenda() {
+		return idNotaFiscalVenda;
+	}
+
+	public void setIdNotaFiscalVenda(Long idNotaFiscalVenda) {
+		this.idNotaFiscalVenda = idNotaFiscalVenda;
 	}
 
 	
