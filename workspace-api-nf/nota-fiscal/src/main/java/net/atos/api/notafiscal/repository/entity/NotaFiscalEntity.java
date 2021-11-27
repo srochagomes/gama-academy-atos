@@ -13,13 +13,14 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -32,10 +33,16 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="OP_FISCAL", 
 	discriminatorType = DiscriminatorType.STRING)
+
+
 public class NotaFiscalEntity {
 	
 	@Id
 	@Column(name = "ID_NOTA_FISCAL")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_nf")	
+	@SequenceGenerator(name = "sq_nf",sequenceName = "sequence_nf",
+	     allocationSize = 1,
+	     initialValue = 1)
 	private Long id;	
 
 	@Column(name = "DT_EMISSAO")
@@ -47,7 +54,7 @@ public class NotaFiscalEntity {
 	private LocalDateTime dataLancamento;
 	
 	
-	@Column(name = "OP_FISCAL")
+	@Column(name = "OP_FISCAL", insertable = false, updatable = false)
 	@NotNull(message = "Campo Operacao Fiscal não pode ser nulo")
 	@Enumerated(EnumType.STRING)
 	private OperacaoFiscalEnum operacaoFiscal;

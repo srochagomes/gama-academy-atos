@@ -3,6 +3,7 @@ package net.atos.api.notafiscal.service;
 import java.time.LocalDate;
 import java.util.Set;
 
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -11,12 +12,11 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
-import net.atos.api.notafiscal.factory.NotaFiscalFactory;
 import net.atos.api.notafiscal.factory.NotaFiscalVendaFactory;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
-import net.atos.api.notafiscal.repository.entity.NotaFiscalEntity;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
 @Service
@@ -31,6 +31,7 @@ public class CriaNotaFiscalVendaService {
 		this.notaFiscalRepositoy = repository; 	
 	}
 
+	@Transactional
 	public NotaFiscalVO persistir(@NotNull(message = "Nota Fiscal não pode ser null") NotaFiscalVO notaFiscal) {		
 		
 		

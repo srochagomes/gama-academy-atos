@@ -32,7 +32,7 @@ public class NotaFiscalVendaFactory{
 		nfVO.setDocumento(pEntity.getDocumento());
 		nfVO.setValor(pEntity.getValor());
 		nfVO.setOperacaoFiscal(pEntity.getOperacaoFiscal());
-		nfVO.setCancelada(pEntity.getCancelada());
+
 		AtomicInteger numeroItem = new AtomicInteger(); 
 		pEntity.getItens().stream().forEach(item -> 
 				this.construirItemVO(nfVO, numeroItem, item));
@@ -56,7 +56,6 @@ public class NotaFiscalVendaFactory{
 		nfEntity.setDocumento(notaFiscal.getDocumento());
 		nfEntity.setValor(notaFiscal.getValor());
 		
-		nfEntity.setCancelada(notaFiscal.getCancelada());
 		AtomicInteger numeroItem = new AtomicInteger(); 
 		notaFiscal.getItens().stream().forEach(item -> 
 				this.construirItemEntity(nfEntity, numeroItem, item));

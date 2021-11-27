@@ -14,6 +14,9 @@ public interface NotaFiscalRepository extends CrudRepository<NotaFiscalEntity, L
 
 	public Optional<List<NotaFiscalEntity>> findByDocumento(String documento);
 
+	
 	public Optional<List<NotaFiscalEntity>> findByDataEmissaoBetween(LocalDate dataInicio, LocalDate dataFim);
+	
+
 
 }

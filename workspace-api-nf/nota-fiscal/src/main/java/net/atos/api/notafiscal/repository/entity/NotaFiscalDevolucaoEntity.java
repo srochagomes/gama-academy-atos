@@ -20,7 +20,7 @@ public class NotaFiscalDevolucaoEntity extends NotaFiscalEntity{
 	private Long idNotaFiscalVenda;	
 
 	
-	@Override
+	@Override	
 	public void setOperacaoFiscal(OperacaoFiscalEnum operacaoFiscal) {
 		throw new IllegalArgumentException();
 	}

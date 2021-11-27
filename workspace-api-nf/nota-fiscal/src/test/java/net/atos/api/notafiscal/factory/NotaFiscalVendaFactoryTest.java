@@ -32,7 +32,6 @@ public class NotaFiscalVendaFactoryTest {
 		notaFiscal.setOperacaoFiscal(OperacaoFiscalEnum.VENDA);
 		notaFiscal.setValor(BigDecimal.ONE);
 		notaFiscal.setDocumento("1-91");
-		notaFiscal.setCancelada(Boolean.FALSE);
 		
 		ItemVO item = new ItemVO();
 		item.setCodigoProduto(123);
@@ -53,8 +52,6 @@ public class NotaFiscalVendaFactoryTest {
 		assertNotNull(entityCriada.getDocumento());
 		assertEquals(notaFiscal.getDocumento(),entityCriada.getDocumento());
 		
-		assertNotNull(entityCriada.getCancelada());
-		assertEquals(notaFiscal.getCancelada(),entityCriada.getCancelada());
 
 		assertNotNull(entityCriada.getOperacaoFiscal());
 		assertEquals(notaFiscal.getOperacaoFiscal(),entityCriada.getOperacaoFiscal());
@@ -81,8 +78,6 @@ public class NotaFiscalVendaFactoryTest {
 		assertNotNull(voCriado.getDocumento());
 		assertEquals(notaFiscal.getDocumento(),voCriado.getDocumento());
 		
-		assertNotNull(voCriado.getCancelada());
-		assertEquals(notaFiscal.getCancelada(),voCriado.getCancelada());
 
 		assertNotNull(voCriado.getOperacaoFiscal());
 		assertEquals(notaFiscal.getOperacaoFiscal(),voCriado.getOperacaoFiscal());
