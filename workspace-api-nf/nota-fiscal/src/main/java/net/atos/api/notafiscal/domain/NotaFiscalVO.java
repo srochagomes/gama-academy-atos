@@ -40,6 +40,9 @@ public class NotaFiscalVO {
 	private List<ItemVO> itens;
 	
 	
+	private Boolean cancelada;
+	
+	
 	private Long idNotaFiscalVenda;	
 	
 	
@@ -113,6 +116,14 @@ public class NotaFiscalVO {
 
 	public void setIdNotaFiscalVenda(Long idNotaFiscalVenda) {
 		this.idNotaFiscalVenda = idNotaFiscalVenda;
+	}
+
+	public Boolean getCancelada() {
+		return cancelada;
+	}
+
+	public void setCancelada(Boolean cancelada) {
+		this.cancelada = cancelada;
 	}
 
 	

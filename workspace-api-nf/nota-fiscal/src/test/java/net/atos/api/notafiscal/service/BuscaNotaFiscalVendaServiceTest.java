@@ -30,7 +30,6 @@ import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-
 public class BuscaNotaFiscalVendaServiceTest {
 
 	private BuscaNotaFiscalVendaService buscaNotaFiscal;
@@ -58,7 +57,7 @@ public class BuscaNotaFiscalVendaServiceTest {
 	}
 
 	@Test	
-	@DisplayName("Testa Quando não encontra uma nota de devolucao por ID.")
+	@DisplayName("Testa Quando não encontra uma nota de venda por ID.")
 	public void test_quandoNaoEncontraNFVendaPorID_lancaExcessao(){
 		assertNotNull(buscaNotaFiscal);
 		var assertThrows = assertThrows(NotFoundException.class, ()->
@@ -67,15 +66,11 @@ public class BuscaNotaFiscalVendaServiceTest {
 		then(notaFiscalRepositoy).should(times(1)).findById(anyLong());	
 		assertEquals(assertThrows.getMessage(), "Não encontrada a nf de venda com id = 3");
 		
-		
-		
-		
-		
 	}
 	
 	
 	@Test	
-	@DisplayName("Testa Quando não encontra uma nota de devolucao por ID.")
+	@DisplayName("Testa Quando encontra uma nota de venda por ID.")
 	public void test_quandoEncontraNFVendaPorID_retornaNFVenda(){
 		assertNotNull(buscaNotaFiscal);
 		

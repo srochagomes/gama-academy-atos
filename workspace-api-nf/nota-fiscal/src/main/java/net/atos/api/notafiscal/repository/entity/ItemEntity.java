@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 @Table(name = "TB_NOTA_FISCAL_ITEM")
 public class ItemEntity {
 
+	
 	@EmbeddedId
 	private ItemPK id;
 	

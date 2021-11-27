@@ -101,6 +101,8 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		
 		NotaFiscalVO notaFiscal = new NotaFiscalVO();
 		
+		
+		//Teste Alvo
 		var assertThrows = assertThrows(ConstraintViolationException.class, ()->
 			criaNotaFiscalDevolucaoService.persistir(notaFiscal));
 		
@@ -237,6 +239,7 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		when(buscaNotaFiscalVendaService.porId(anyLong()))
 				.thenThrow(NotFoundException.class);
 		
+		//Teste Alvo
 		var assertThrows = assertThrows(NotFoundException.class, ()->
 			criaNotaFiscalDevolucaoService.persistir(notaFiscal));
 
@@ -244,9 +247,6 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		then(notaFiscalRepositoy).should(times(0)).save(any());
 
 		assertNotNull(assertThrows);
-
-		
-		
 		
 	}
 
@@ -279,7 +279,7 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		var assertThrows = assertThrows(BadRequestException.class, ()->
 			criaNotaFiscalDevolucaoService.persistir(notaFiscal));
 
-		
+		then(buscaNotaFiscalVendaService).should(times(1)).porId(anyLong());
 		then(notaFiscalRepositoy).should(times(0)).save(any());
 
 		assertEquals(assertThrows.getMessage(),
@@ -320,7 +320,8 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		var assertThrows = assertThrows(BadRequestException.class, ()->
 			criaNotaFiscalDevolucaoService.persistir(notaFiscal));
 
-		
+		then(buscaNotaFiscalVendaService).should(times(1)).porId(anyLong());
+		then(notaFiscalRepositoy).should(times(1)).findByIdNotaFiscalVenda(anyLong());
 		then(notaFiscalRepositoy).should(times(0)).save(any());
 
 		assertEquals(assertThrows.getMessage(),
@@ -362,6 +363,8 @@ public class CriaNotaFiscalDevolucaoServiceTest {
 		NotaFiscalVO notaFiscalDevolucaoCriada = criaNotaFiscalDevolucaoService.persistir(notaFiscal);
 
 		
+		then(buscaNotaFiscalVendaService).should(times(1)).porId(anyLong());
+		then(notaFiscalRepositoy).should(times(1)).findByIdNotaFiscalVenda(anyLong());
 		then(notaFiscalRepositoy).should(times(1)).save(any());
 
 		assertNotNull(notaFiscalDevolucaoCriada);

@@ -1,5 +1,6 @@
 package net.atos.api.notafiscal.repository.entity;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.persistence.Column;
@@ -12,6 +13,9 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 @DiscriminatorValue("VENDA")
 public class NotaFiscalVendaEntity extends NotaFiscalEntity{
 
+	public NotaFiscalVendaEntity() {
+		super.setOperacaoFiscal(OperacaoFiscalEnum.VENDA);
+	}
 	
 	@Column(name = "FL_CANCELADA")
 	private Boolean cancelada;
@@ -32,6 +36,12 @@ public class NotaFiscalVendaEntity extends NotaFiscalEntity{
 
 	public void setCancelada(Boolean cancelada) {
 		this.cancelada = cancelada;
+	}
+
+	public boolean ehSuperior24Horas() {
+		return this.getDataLancamento()
+						.isBefore(LocalDateTime.now().minusHours(24l));
+		
 	}
 	
 }

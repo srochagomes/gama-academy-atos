@@ -8,29 +8,54 @@ import net.atos.api.notafiscal.repository.entity.ItemEntity;
 import net.atos.api.notafiscal.repository.entity.ItemPK;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalDevolucaoEntity;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalEntity;
-import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
-public class NotaFiscalDevolucaoFactory {
+public class NotaFiscalDevolucaoFactory{
 	
 	private NotaFiscalVO vo;
 	private NotaFiscalDevolucaoEntity entity;
 	
-	public NotaFiscalDevolucaoFactory(NotaFiscalVO vo) {
-		this.entity = this.transformaEntity(vo);
+	public NotaFiscalDevolucaoFactory(NotaFiscalVO pVo) {
+		this.entity = this.transformaEntity(pVo);
+		this.vo = pVo;		
+	}
+	
+	public NotaFiscalDevolucaoFactory(NotaFiscalDevolucaoEntity pEntity) {
+		this.entity = pEntity;
+		this.vo = this.transformaVO(pEntity);		
+	}
+	
+	
+	private NotaFiscalVO transformaVO(NotaFiscalDevolucaoEntity pEntity) {
+		NotaFiscalVO nfVO = new NotaFiscalVO();
+		nfVO.setDataEmissao(pEntity.getDataEmissao());
+		nfVO.setDataLancamento(pEntity.getDataLancamento());
+		nfVO.setDocumento(pEntity.getDocumento());
+		nfVO.setValor(pEntity.getValor());
+		nfVO.setOperacaoFiscal(pEntity.getOperacaoFiscal());
+		nfVO.setIdNotaFiscalVenda(pEntity.getIdNotaFiscalVenda());
+		AtomicInteger numeroItem = new AtomicInteger(); 
+		pEntity.getItens().stream().forEach(item -> 
+				this.construirItemVO(nfVO, numeroItem, item));
 		
+		return nfVO;
 	}
-	
-	public NotaFiscalDevolucaoFactory(NotaFiscalVendaEntity entity) {
-		throw new IllegalAccessError();		
+
+	private void construirItemVO(NotaFiscalVO nfVO, AtomicInteger numeroItem, ItemEntity item) {
+		ItemVO itemVO = new ItemVO();
+		itemVO.setCodigoProduto(item.getCodigoProduto());
+		itemVO.setNcm(item.getNcm());
+		itemVO.setValor(item.getValor());
+		
+		nfVO.add(itemVO);
 	}
-	
-	
+
 	private NotaFiscalDevolucaoEntity transformaEntity(NotaFiscalVO notaFiscal) {
 		NotaFiscalDevolucaoEntity nfEntity = new NotaFiscalDevolucaoEntity();
 		nfEntity.setDataEmissao(notaFiscal.getDataEmissao());
 		nfEntity.setDataLancamento(notaFiscal.getDataLancamento());
 		nfEntity.setDocumento(notaFiscal.getDocumento());
-		//nfEntity.setOperacaoFiscal(notaFiscal.getOperacaoFiscal());
+		nfEntity.setValor(notaFiscal.getValor());
+		
 		nfEntity.setIdNotaFiscalVenda(notaFiscal.getIdNotaFiscalVenda());
 		AtomicInteger numeroItem = new AtomicInteger(); 
 		notaFiscal.getItens().stream().forEach(item -> 
@@ -45,6 +70,7 @@ public class NotaFiscalDevolucaoFactory {
 		itemEntity.setId(new ItemPK());
 		itemEntity.getId().setNumeroItem(numeroItem.incrementAndGet());
 		itemEntity.getId().setNotaFiscal(nfEntity);
+		itemEntity.setCodigoProduto(item.getCodigoProduto());
 		itemEntity.setNcm(item.getNcm());
 		itemEntity.setValor(item.getValor());
 		
@@ -54,6 +80,11 @@ public class NotaFiscalDevolucaoFactory {
 
 	public NotaFiscalDevolucaoEntity toEntity() {		
 		return this.entity;
+	}
+
+	public NotaFiscalVO toVO() {
+		
+		return this.vo;
 	}
 
 	

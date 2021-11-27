@@ -57,7 +57,7 @@ public class NotaFiscalEntity {
 	@Positive
 	private BigDecimal valor;
 		
-	@Column(name = "VL_NF")
+	@Column(name = "CDS_DOCUMENTO")
 	@NotNull(message = "Campo Documento não pode ser nulo")
 	private String documento;
 	

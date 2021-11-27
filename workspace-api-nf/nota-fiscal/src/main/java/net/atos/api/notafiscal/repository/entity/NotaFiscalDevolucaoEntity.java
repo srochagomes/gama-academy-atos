@@ -3,7 +3,6 @@ package net.atos.api.notafiscal.repository.entity;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 
@@ -12,7 +11,10 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 public class NotaFiscalDevolucaoEntity extends NotaFiscalEntity{
 
 	
-	
+
+	public NotaFiscalDevolucaoEntity() {
+		super.setOperacaoFiscal(OperacaoFiscalEnum.DEVOLUCAO);
+	}
 	
 	@Column(name = "ID_NOTA_FISCAL_VENDA")
 	private Long idNotaFiscalVenda;	

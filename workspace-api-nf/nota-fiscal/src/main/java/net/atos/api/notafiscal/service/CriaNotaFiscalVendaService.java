@@ -59,9 +59,11 @@ public class CriaNotaFiscalVendaService {
 	}
 	
 		
-	public NotaFiscalVendaEntity recuperaPorId(long id) {
-		return this.notaFiscalRepositoy.findById(id)
-				.orElseThrow(()-> new NotFoundException("Não encontrada a nf de venda com id = "+id));		
+	public NotaFiscalVO recuperaPorId(long id) {
+		NotaFiscalVendaEntity notaFiscalEncontrada = this.notaFiscalRepositoy.findById(id)
+				.orElseThrow(()-> new NotFoundException("Não encontrada a nf de venda com id = "+id));
+		
+		return new NotaFiscalVendaFactory(notaFiscalEncontrada).toVO();
 	}
 	
 }
