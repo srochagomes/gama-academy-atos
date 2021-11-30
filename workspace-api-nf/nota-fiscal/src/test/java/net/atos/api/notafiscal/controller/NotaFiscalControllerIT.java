@@ -1,5 +1,6 @@
 package net.atos.api.notafiscal.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -88,14 +90,145 @@ public class NotaFiscalControllerIT {
 		item.setNcm("AB-092892");
 		item.setValor(BigDecimal.ONE);
 		notaFiscal.add(item);
+		
+		item.setCodigoProduto(124);
+		item.setNcm("AB-092893");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
     	
-    	this.mockMvc.perform(
+    	ResultActions resultCreated = this.mockMvc.perform(
     			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(notaFiscal))
     			).andDo(print())
     			.andExpect(status().isCreated());
+    	
+    	NotaFiscalVO notaFiscalCriada = mapper.readValue(resultCreated
+    						.andReturn()
+    						.getResponse()
+    						.getContentAsString(),
+    						NotaFiscalVO.class);
+    	
+    	ResultActions resultConsulted = this.mockMvc.perform(
+    			MockMvcRequestBuilders.get(URI_NOTA_FISCAL.concat("/{id}"),
+    					notaFiscalCriada.getId()))
+    					.andDo(print())
+    					.andExpect(status().isOk());
+    	
+    	NotaFiscalVO notaFiscalConsultada = mapper.readValue(resultConsulted
+				.andReturn()
+				.getResponse()
+				.getContentAsString(),
+				NotaFiscalVO.class);
+    	
+    	assertEquals(2, notaFiscalConsultada.getItens().size());
+    	assertEquals(OperacaoFiscalEnum.VENDA, notaFiscalConsultada.getOperacaoFiscal());
+    }
+    
+    
+    @Test    
+    @DisplayName("Cria nota Fiscal de devolução sem id nota fiscal Venda")
+    public void test_criaNotaFiscalDevolucaoSemIDVenda_retornoCriado() throws Exception {
+    	NotaFiscalVO notaFiscal =  new NotaFiscalVO();
+		notaFiscal.setDataEmissao(LocalDate.now());		
+		notaFiscal.setDataLancamento(LocalDateTime.now());		
+		notaFiscal.setOperacaoFiscal(OperacaoFiscalEnum.DEVOLUCAO);
+		notaFiscal.setValor(BigDecimal.ONE);
+		notaFiscal.setDocumento("1-91");
+		
+		ItemVO item = new ItemVO();
+		item.setCodigoProduto(123);
+		item.setNcm("AB-092892");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+		
+		item.setCodigoProduto(124);
+		item.setNcm("AB-092893");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+
+		ResultActions andExpect = this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+    			.andExpect(status().isBadRequest());
+		
+		
+		System.out.println(andExpect.andReturn().getRequest());
+    	
+    }
+
+    @Test    
+    @DisplayName("Cria nota Fiscal de devolução")
+    public void test_criaNotaFiscalDevolucao_retornoCriado() throws Exception {
+    	NotaFiscalVO notaFiscal =  new NotaFiscalVO();
+		notaFiscal.setDataEmissao(LocalDate.now());		
+		notaFiscal.setDataLancamento(LocalDateTime.now());		
+		notaFiscal.setOperacaoFiscal(OperacaoFiscalEnum.VENDA);
+		notaFiscal.setValor(BigDecimal.ONE);
+		notaFiscal.setDocumento("44441-91");
+		
+		ItemVO item = new ItemVO();
+		item.setCodigoProduto(123);
+		item.setNcm("AB-092892");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+		
+		item.setCodigoProduto(124);
+		item.setNcm("AB-092893");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+    	
+    	ResultActions resultCreated = this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(notaFiscal))
+    			).andDo(print())
+    			.andExpect(status().isCreated());
+    	
+    	NotaFiscalVO notaFiscalCriada = mapper.readValue(resultCreated
+    						.andReturn()
+    						.getResponse()
+    						.getContentAsString(),
+    						NotaFiscalVO.class);
+		
+		
+    	notaFiscalCriada.setOperacaoFiscal(OperacaoFiscalEnum.DEVOLUCAO);
+    	notaFiscalCriada.setIdNotaFiscalVenda(notaFiscalCriada.getId());
+    	notaFiscalCriada.setId(null);
+    	
+    	resultCreated = this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(notaFiscalCriada))
+    			).andDo(print())
+    			.andExpect(status().isCreated());
+    	
+    	NotaFiscalVO notaFiscalDevolvida = mapper.readValue(resultCreated
+				.andReturn()
+				.getResponse()
+				.getContentAsString(),
+				NotaFiscalVO.class);
+
+    	ResultActions resultConsulted = this.mockMvc.perform(
+    			MockMvcRequestBuilders.get(URI_NOTA_FISCAL.concat("/{id}"),
+    					notaFiscalDevolvida.getId()))
+    					.andDo(print())
+    					.andExpect(status().isOk());
+    	
+    	NotaFiscalVO notaFiscalDevolvidaConsultada = mapper.readValue(resultConsulted
+				.andReturn()
+				.getResponse()
+				.getContentAsString(),
+				NotaFiscalVO.class);
+    	
+    	assertEquals(2, notaFiscalDevolvidaConsultada.getItens().size());
+    	assertEquals(OperacaoFiscalEnum.DEVOLUCAO, notaFiscalDevolvidaConsultada.getOperacaoFiscal());
+    	
     }
 
 

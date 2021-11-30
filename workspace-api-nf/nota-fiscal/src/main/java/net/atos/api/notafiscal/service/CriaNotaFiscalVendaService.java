@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
+import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 import net.atos.api.notafiscal.factory.NotaFiscalVendaFactory;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
 @Service
-public class CriaNotaFiscalVendaService {	
+public class CriaNotaFiscalVendaService implements CriaNotaFiscal{	
 	
 	private Validator validator;
 	
@@ -65,6 +66,11 @@ public class CriaNotaFiscalVendaService {
 				.orElseThrow(()-> new NotFoundException("Não encontrada a nf de venda com id = "+id));
 		
 		return new NotaFiscalVendaFactory(notaFiscalEncontrada).toVO();
+	}
+
+	@Override
+	public boolean isType(OperacaoFiscalEnum type) {		
+		return OperacaoFiscalEnum.VENDA.equals(type);
 	}
 	
 }

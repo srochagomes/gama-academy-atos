@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -72,7 +73,7 @@ public class NotaFiscalEntity {
 	@NotNull(message = "Campo Itens deve ter pelo menos um item")
 	@Size(min = 1, message = "Campo Itens deve ter pelo menos um item")
 	@Valid
-	@OneToMany(mappedBy = "id.notaFiscal")	
+	@OneToMany(mappedBy = "id.notaFiscal", cascade = CascadeType.ALL)	
 	private List<ItemEntity> itens;
 	
 	

@@ -11,15 +11,17 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.BadRequestException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
+import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 import net.atos.api.notafiscal.factory.NotaFiscalDevolucaoFactory;
 import net.atos.api.notafiscal.repository.NotaFiscalDevolucaoRepository;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalDevolucaoEntity;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
 
 @Service
-public class CriaNotaFiscalDevolucaoService {
+public class CriaNotaFiscalDevolucaoService implements CriaNotaFiscal{
 
 	private Validator validator;
 	private NotaFiscalDevolucaoRepository notaFiscalRepositoy;
@@ -34,6 +36,7 @@ public class CriaNotaFiscalDevolucaoService {
 		this.buscaNotaFiscalVendaService = bNFVendaService;
 	}
 
+	@Transactional
 	public NotaFiscalVO persistir(@NotNull NotaFiscalVO notaFiscal) {
 		Set<ConstraintViolation<NotaFiscalVO>> validateMessages = this.validator.validate(notaFiscal);
 
@@ -66,7 +69,14 @@ public class CriaNotaFiscalDevolucaoService {
 		
 		this.notaFiscalRepositoy.save(nfEntity);
 		
+		notaFiscal.setId(nfEntity.getId());
+		
 		return notaFiscal;
+	}
+
+	@Override
+	public boolean isType(OperacaoFiscalEnum type) {		
+		return OperacaoFiscalEnum.DEVOLUCAO.equals(type);
 	}
 
 }
