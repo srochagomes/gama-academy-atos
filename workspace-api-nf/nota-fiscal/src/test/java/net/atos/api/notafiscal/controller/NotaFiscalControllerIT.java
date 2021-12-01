@@ -1,13 +1,17 @@
 package net.atos.api.notafiscal.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -27,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.atos.api.notafiscal.domain.ItemVO;
@@ -50,10 +55,15 @@ public class NotaFiscalControllerIT {
 	
     private MockMvc mockMvc;
     
+    @Autowired
+    private EntityManager entityManager;
+    
     @BeforeAll
     public void setup() {
-
+    	
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        assertNotNull(this.entityManager);
+        
 
     }
     
@@ -230,7 +240,151 @@ public class NotaFiscalControllerIT {
     	assertEquals(OperacaoFiscalEnum.DEVOLUCAO, notaFiscalDevolvidaConsultada.getOperacaoFiscal());
     	
     }
+    
+    @Test    
+    @DisplayName("Tenta Criar nota Fiscal com Operacao Fiscal inexistente")
+    public void test_criaNotaFiscalOperacaoFiscalIne_retornoBadRequest() throws Exception {
+    	String notaFiscalString = 
+    			"{\"id\":null,\"dataEmissao\":\"2021-11-30\","
+    			+ "\"dataLancamento\":\"2021-11-30T18:54:14.625975\","
+    			+ "\"operacaoFiscal\":\"TRANSFERENCIA_INTERNA\",\"valor\":1,"
+    			+ "\"documento\":\"1-91\",\"itens\":"
+    			+ "[{\"codigoProduto\":124,\"ncm\":\"AB-092893\","
+    			+ "\"valor\":1},{\"codigoProduto\":124,"
+    			+ "\"ncm\":\"AB-092893\",\"valor\":1}],\"idNotaFiscalVenda\":null}";
+    	
+    	ResultActions resultCreated = this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(notaFiscalString)
+    			).andDo(print())
+    			.andExpect(status().isBadRequest());
 
+    }
+    
+    @Test    
+    @DisplayName("Tenta Criar nota Fiscal de Transferencia que não tem implementacao")
+    public void test_criaNotaFiscalOperacaoFiscalNaoImplementada_retornoBadRequest() throws Exception {
+    	NotaFiscalVO notaFiscal =  new NotaFiscalVO();
+		notaFiscal.setDataEmissao(LocalDate.now());		
+		notaFiscal.setDataLancamento(LocalDateTime.now());		
+		notaFiscal.setOperacaoFiscal(OperacaoFiscalEnum.TRAFERENCIA);
+		notaFiscal.setValor(BigDecimal.ONE);
+		notaFiscal.setDocumento("1-91");
+		
+		ItemVO item = new ItemVO();
+		item.setCodigoProduto(123);
+		item.setNcm("AB-092892");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+		
+		item.setCodigoProduto(124);
+		item.setNcm("AB-092893");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+    	
+    	this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(notaFiscal))
+    			).andDo(print())
+    			.andExpect(status().isBadRequest());
+    }
+    
+    
+    @Test    
+    @DisplayName("Cria nota Fiscal de venda e cancela")
+    public void test_criaNotaFiscalECancela_retornoCriado() throws Exception {
+    	NotaFiscalVO notaFiscal =  new NotaFiscalVO();
+		notaFiscal.setDataEmissao(LocalDate.now());		
+		notaFiscal.setDataLancamento(LocalDateTime.now());		
+		notaFiscal.setOperacaoFiscal(OperacaoFiscalEnum.VENDA);
+		notaFiscal.setValor(BigDecimal.ONE);
+		notaFiscal.setDocumento("1-91");
+		
+		ItemVO item = new ItemVO();
+		item.setCodigoProduto(123);
+		item.setNcm("AB-092892");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+		
+		item.setCodigoProduto(124);
+		item.setNcm("AB-092893");
+		item.setValor(BigDecimal.ONE);
+		notaFiscal.add(item);
+    	
+    	ResultActions resultCreated = this.mockMvc.perform(
+    			MockMvcRequestBuilders.post(URI_NOTA_FISCAL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(notaFiscal))
+    			).andDo(print())
+    			.andExpect(status().isCreated());
+    	
+    	NotaFiscalVO notaFiscalCriada = mapper.readValue(resultCreated
+    						.andReturn()
+    						.getResponse()
+    						.getContentAsString(),
+    						NotaFiscalVO.class);
+    	
+    	this.mockMvc.perform(
+    			MockMvcRequestBuilders.patch(URI_NOTA_FISCAL.concat("/{id}/cancelamento"),
+    					notaFiscalCriada.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(notaFiscal))
+    			).andDo(print())
+    			.andExpect(status().isOk());
+    }
+    
 
+    @Test    
+    @DisplayName("Consulta nota Fiscal de venda por documento")
+    public void test_criaNotaFiscalPorDocumento_retornoOK() throws Exception {
+    	ResultActions resultConsulted = this.mockMvc.perform(
+    			MockMvcRequestBuilders.get(URI_NOTA_FISCAL.concat("/documentos/{documento}"),
+    					"1-91"))
+    					.andDo(print())
+    					.andExpect(status().isOk());	
+    	
+    	
+    	List<NotaFiscalVO> notasFiscaisConsultadas = mapper.readValue(resultConsulted
+				.andReturn()
+				.getResponse()
+				.getContentAsString(),
+				new TypeReference<List<NotaFiscalVO>>() { });
+    	
+    	System.out.println("(Consulta pot documento) Quantidade de notas do documento 1-91 = "+notasFiscaisConsultadas.size());
+    	assertNotNull(notasFiscaisConsultadas);
+    }
+
+    
+    @Test    
+    @DisplayName("Consulta nota Fiscal de venda por periodo")
+    public void test_criaNotaFiscalPorPeriodo_retornoOK() throws Exception {
+    	String dataInicio = LocalDate.now().minusDays(1l).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    	String dataFim = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    	   	
+    	
+    	ResultActions resultConsulted = this.mockMvc.perform(
+    			MockMvcRequestBuilders.get(URI_NOTA_FISCAL.concat("/emissao-periodos/{dataInicio}/{dataFim}"),
+    					dataInicio,dataFim))
+    					.andDo(print())
+    					.andExpect(status().isOk());	
+    	
+    	
+    	List<NotaFiscalVO> notasFiscaisConsultadas = mapper.readValue(resultConsulted
+				.andReturn()
+				.getResponse()
+				.getContentAsString(),
+				new TypeReference<List<NotaFiscalVO>>() { });
+    	
+    	System.out.println("(Consulta pot periodo) Quantidade de notas do documento 1-91 = "+notasFiscaisConsultadas.size());
+    	assertNotNull(notasFiscaisConsultadas);
+    }
+    
+    
 
 }

@@ -1,5 +1,6 @@
 package net.atos.api.notafiscal.repository.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -11,9 +12,14 @@ import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "TB_NOTA_FISCAL_ITEM")
-public class ItemEntity {
+public class ItemEntity implements Serializable{
 
 	
+	/**
+	 * SERIAL UID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EmbeddedId
 	private ItemPK id;
 	

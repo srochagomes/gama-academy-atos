@@ -41,7 +41,8 @@ public class BuscaNotaFiscalService {
 
 
 	public List<NotaFiscalVO>  porPeriodoDataEmissao(LocalDate dataInicio, LocalDate dataFim) {
-		List<NotaFiscalEntity> notasFiscaisEntities = notaFiscalRepositoy.findByDataEmissaoBetween(dataInicio,dataFim)
+		List<NotaFiscalEntity> notasFiscaisEntities = 
+				     notaFiscalRepositoy.findByDataEmissaoBetween(dataInicio,dataFim)
 				.orElseThrow(()->
 				     new NotFoundException("Nenhuma nota fiscal para o periodo informado"));
 		

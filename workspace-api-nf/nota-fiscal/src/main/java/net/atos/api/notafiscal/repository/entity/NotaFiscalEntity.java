@@ -1,5 +1,6 @@
 package net.atos.api.notafiscal.repository.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,8 +37,13 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 	discriminatorType = DiscriminatorType.STRING)
 
 
-public class NotaFiscalEntity {
+public class NotaFiscalEntity implements Serializable {
 	
+	/**
+	 * Serial UID
+	 */
+	private static final long serialVersionUID = -6840352960820327547L;
+
 	@Id
 	@Column(name = "ID_NOTA_FISCAL")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_nf")	

@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +28,25 @@ public class RestResponseExceptionHandler {
     public Message requestHandlingNoHandlerFound(NotFoundException exception ) {
 		return new Message("Not Found", exception.getMessage());
 	}
+
+	@ExceptionHandler(BadRequestException.class)
+	@ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Message requestHandlingNoHandlerBadRequest(BadRequestException exception ) {
+		return new Message("Erro de validação", exception.getMessage());
+	}
 	
+	
+	@ExceptionHandler({ HttpMessageNotReadableException.class })
+	public ResponseEntity<String> handleHttpMessageNotReadable(
+			HttpMessageNotReadableException exMethod, 
+			 									WebRequest request) {
+		
+		
+
+		return ResponseEntity.badRequest().body(exMethod.getMessage());
+	}
+
 	
 	@ExceptionHandler({ ConstraintViolationException.class })
 	public ResponseEntity<List<String>> handleConstraintViolation(

@@ -1,12 +1,12 @@
 package net.atos.api.notafiscal.service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.validation.Validator;
 import javax.ws.rs.BadRequestException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.api.notafiscal.repository.NotaFiscalDevolucaoRepository;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
@@ -33,7 +33,7 @@ public class CancelaNotaFiscalVendaService {
 		this.notaFiscalDevolucaoRepository = pnotaFiscalDevolucaoRepository;
 	}
 
-
+	@Transactional
 	public void cancelar(Long id) {
 		
 		NotaFiscalVendaEntity notaFiscalVendaEncontrada = 

@@ -1,14 +1,17 @@
 package net.atos.api.notafiscal.controller;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.service.BuscaNotaFiscalService;
+import net.atos.api.notafiscal.service.CancelaNotaFiscalVendaService;
 import net.atos.api.notafiscal.service.CriaNotaFiscal;
 
 @RestController
@@ -27,13 +31,17 @@ public class NotaFiscalController {
 
 	private List<CriaNotaFiscal> criacaoNotaFiscalStrategies;
 	
-	private BuscaNotaFiscalService buscaNotaFiscalService; 
+	private BuscaNotaFiscalService buscaNotaFiscalService;
+	
+	private CancelaNotaFiscalVendaService cancelaNotaFiscalVendaService;
 	
 	public NotaFiscalController(List<CriaNotaFiscal> strategies,
-			BuscaNotaFiscalService buscaNotaFiscalService) {
+			BuscaNotaFiscalService buscaNotaFiscalService, 
+			CancelaNotaFiscalVendaService cancelaService) {
 		super();
 		this.buscaNotaFiscalService = buscaNotaFiscalService;
 		this.criacaoNotaFiscalStrategies = strategies;
+		this.cancelaNotaFiscalVendaService = cancelaService;
 	}
 
 
@@ -67,5 +75,38 @@ public class NotaFiscalController {
 		
 		return ResponseEntity.ok(notaFiscalEncontrada);
 	}
+	
+	
+	@PatchMapping(value = "/{id}/cancelamento", produces = {MediaType.APPLICATION_JSON})
+	public ResponseEntity<Long> cancelarNotaFiscalPorId(@PathVariable("id") Long id){
+		
+		this.cancelaNotaFiscalVendaService.cancelar(id);	
+		
+		return ResponseEntity.ok(id);
+		
+	}
+	
+	@GetMapping(value = "/documentos/{documento}", produces = {MediaType.APPLICATION_JSON})
+	public ResponseEntity<List<NotaFiscalVO>> getNotaFiscaisPorDocumentos(@PathVariable("documento") String documento){
+		
+		List<NotaFiscalVO> notasFiscaisEncontradas = this.buscaNotaFiscalService.porDocumento(documento);	
+		
+		return ResponseEntity.ok(notasFiscaisEncontradas);
+		
+	}
+	
+	@GetMapping(value = "/emissao-periodos/{dataInicio}/{dataFim}", produces = {MediaType.APPLICATION_JSON})
+	public ResponseEntity<List<NotaFiscalVO>> getNotaFiscaisPorPeriodo(
+			@PathVariable("dataInicio") @DateTimeFormat(pattern = "dd-MM-yyyy")LocalDate dataInicio,
+			@PathVariable("dataFim") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate dataFim){
+		
+		List<NotaFiscalVO> notasFiscaisEncontradas = this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim);	
+		
+		return ResponseEntity.ok(notasFiscaisEncontradas);
+		
+	}
+	
+	
+	
 
 }
