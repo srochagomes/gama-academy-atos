@@ -12,14 +12,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class NotaFiscalVO {
 
 	private Long id;
 	
 	@NotNull(message = "Campo data de emissão não pode ser nula")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private LocalDate dataEmissao;
 	
 	@NotNull(message = "Campo data de Lançamento não pode ser nula")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime dataLancamento;
 	
 	

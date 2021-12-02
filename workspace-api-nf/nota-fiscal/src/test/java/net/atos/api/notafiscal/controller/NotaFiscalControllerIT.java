@@ -34,6 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.atos.api.notafiscal.controller.page.PaginatedResponse;
 import net.atos.api.notafiscal.domain.ItemVO;
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
@@ -375,13 +376,13 @@ public class NotaFiscalControllerIT {
     					.andExpect(status().isOk());	
     	
     	
-    	List<NotaFiscalVO> notasFiscaisConsultadas = mapper.readValue(resultConsulted
+    	PaginatedResponse<NotaFiscalVO> notasFiscaisConsultadas = mapper.readValue(resultConsulted
 				.andReturn()
 				.getResponse()
 				.getContentAsString(),
-				new TypeReference<List<NotaFiscalVO>>() { });
+				new TypeReference<PaginatedResponse<NotaFiscalVO>>() { });
     	
-    	System.out.println("(Consulta pot periodo) Quantidade de notas do documento 1-91 = "+notasFiscaisConsultadas.size());
+    	System.out.println("(Consulta pot periodo) Quantidade de notas do documento 1-91 = "+notasFiscaisConsultadas.getSize());
     	assertNotNull(notasFiscaisConsultadas);
     }
     

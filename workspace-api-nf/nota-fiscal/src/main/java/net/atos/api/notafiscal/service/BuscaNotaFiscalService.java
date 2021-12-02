@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 import javax.validation.Validator;
 import javax.ws.rs.NotFoundException;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
@@ -40,16 +44,24 @@ public class BuscaNotaFiscalService {
 	}
 
 
-	public List<NotaFiscalVO>  porPeriodoDataEmissao(LocalDate dataInicio, LocalDate dataFim) {
-		List<NotaFiscalEntity> notasFiscaisEntities = 
-				     notaFiscalRepositoy.findByDataEmissaoBetween(dataInicio,dataFim)
-				.orElseThrow(()->
-				     new NotFoundException("Nenhuma nota fiscal para o periodo informado"));
+	public Page<NotaFiscalVO>  porPeriodoDataEmissao(LocalDate dataInicio, LocalDate dataFim, Pageable pageable) {
 		
-		return notasFiscaisEntities.stream()
+		Page<NotaFiscalEntity> notasFiscaisEntities = 
+				     notaFiscalRepositoy.findByDataEmissaoBetween(dataInicio,dataFim, pageable);
+		
+		if(notasFiscaisEntities.isEmpty()) {
+			throw new NotFoundException("Nenhuma nota fiscal para o periodo informado");	
+		}
+		
+		
+		return new PageImpl<>(notasFiscaisEntities.getContent().stream()
 				.map(NotaFiscalFactory::new)
 				.map(NotaFiscalFactory::toVO)
-				.collect(Collectors.toList()); 
+				.collect(Collectors.toList()),
+				notasFiscaisEntities.getPageable(),
+				notasFiscaisEntities.getTotalElements());		     
+		
+		 
 		
 	}
 

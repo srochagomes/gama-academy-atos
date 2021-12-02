@@ -8,6 +8,10 @@ import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import net.atos.api.notafiscal.config.PageableBinding;
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.service.BuscaNotaFiscalService;
 import net.atos.api.notafiscal.service.CancelaNotaFiscalVendaService;
@@ -26,6 +33,7 @@ import net.atos.api.notafiscal.service.CriaNotaFiscal;
 
 @RestController
 @RequestMapping("/v1/notas-fiscais")
+@Api(tags = "Nota Fiscal")
 public class NotaFiscalController {
 	
 
@@ -48,6 +56,7 @@ public class NotaFiscalController {
 
 
 	@PostMapping(produces = {MediaType.APPLICATION_JSON}, consumes = {MediaType.APPLICATION_JSON})
+	@ApiOperation("Cria uma nota fiscal")
 	public ResponseEntity<NotaFiscalVO> criaNotaFiscal(@Valid @RequestBody NotaFiscalVO notaFiscal){	
 		
 		
@@ -69,6 +78,7 @@ public class NotaFiscalController {
 	
 	
 	@GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON})
+	@ApiOperation("Consulta uma nota fiscal por id")
 	public ResponseEntity<NotaFiscalVO> getNotaFiscalPorId(@PathVariable("id") Long id){
 		
 		NotaFiscalVO notaFiscalEncontrada = buscaNotaFiscalService.porId(id);			
@@ -78,6 +88,7 @@ public class NotaFiscalController {
 	
 	
 	@PatchMapping(value = "/{id}/cancelamento", produces = {MediaType.APPLICATION_JSON})
+	@ApiOperation("Realiza um cancelamento de uma nota fiscal de venda")
 	public ResponseEntity<Long> cancelarNotaFiscalPorId(@PathVariable("id") Long id){
 		
 		this.cancelaNotaFiscalVendaService.cancelar(id);	
@@ -87,6 +98,7 @@ public class NotaFiscalController {
 	}
 	
 	@GetMapping(value = "/documentos/{documento}", produces = {MediaType.APPLICATION_JSON})
+	@ApiOperation("Consulta notas fiscais por documento")
 	public ResponseEntity<List<NotaFiscalVO>> getNotaFiscaisPorDocumentos(@PathVariable("documento") String documento){
 		
 		List<NotaFiscalVO> notasFiscaisEncontradas = this.buscaNotaFiscalService.porDocumento(documento);	
@@ -95,12 +107,15 @@ public class NotaFiscalController {
 		
 	}
 	
+	@PageableBinding
 	@GetMapping(value = "/emissao-periodos/{dataInicio}/{dataFim}", produces = {MediaType.APPLICATION_JSON})
-	public ResponseEntity<List<NotaFiscalVO>> getNotaFiscaisPorPeriodo(
+	@ApiOperation("Consulta notas fiscais por período")
+	public ResponseEntity<Page<NotaFiscalVO>> getNotaFiscaisPorPeriodo(
 			@PathVariable("dataInicio") @DateTimeFormat(pattern = "dd-MM-yyyy")LocalDate dataInicio,
-			@PathVariable("dataFim") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate dataFim){
+			@PathVariable("dataFim") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate dataFim,
+			@PageableDefault(sort = { "dataEmissao"}, direction = Direction.DESC, page = 0, size = 10) Pageable pageable){
 		
-		List<NotaFiscalVO> notasFiscaisEncontradas = this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim);	
+		Page<NotaFiscalVO> notasFiscaisEncontradas = this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim, pageable);	
 		
 		return ResponseEntity.ok(notasFiscaisEncontradas);
 		

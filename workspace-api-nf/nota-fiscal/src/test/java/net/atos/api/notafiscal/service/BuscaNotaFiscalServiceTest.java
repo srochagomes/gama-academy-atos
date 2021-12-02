@@ -28,6 +28,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.repository.NotaFiscalRepository;
@@ -45,6 +48,7 @@ public class BuscaNotaFiscalServiceTest {
 	
 	private NotaFiscalRepository notaFiscalRepositoy;
 	
+	private Pageable pageable;
 	
 	
 	@BeforeAll
@@ -59,7 +63,7 @@ public class BuscaNotaFiscalServiceTest {
 	public void iniciarCadaTeste() {
 		
 		this.notaFiscalRepositoy = Mockito.mock(NotaFiscalRepository.class);
-		
+		this.pageable = Mockito.mock(Pageable.class);
 		buscaNotaFiscalService = new BuscaNotaFiscalService(validator, notaFiscalRepositoy);	
 	}
 	
@@ -113,9 +117,15 @@ public class BuscaNotaFiscalServiceTest {
 		LocalDate dataInicio = LocalDate.now().minusDays(10l);
 		LocalDate dataFim = LocalDate.now();
 		
+		List<NotaFiscalEntity> notasTreinadas = new ArrayList<>();
+		Page<NotaFiscalEntity> notasPaginadas = new PageImpl<>(notasTreinadas,this.pageable,0l);
+		when(this.notaFiscalRepositoy.findByDataEmissaoBetween(any(),any(),any()))
+					.thenReturn(notasPaginadas);
+
+		
 		var assertThrows = 
 				assertThrows(NotFoundException.class, 
-						()-> this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim));
+						()-> this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim, this.pageable));
 		
 		assertNotNull(assertThrows);
 		assertEquals("Nenhuma nota fiscal para o periodo informado", assertThrows.getMessage());
@@ -133,18 +143,19 @@ public class BuscaNotaFiscalServiceTest {
 		notasTreinadas.add(new NotaFiscalEntity());
 		notasTreinadas.add(new NotaFiscalEntity());
 		notasTreinadas.add(new NotaFiscalEntity());
+		Page<NotaFiscalEntity> notasPaginadas = new PageImpl<>(notasTreinadas,this.pageable,0l);
 		
 		
-		when(this.notaFiscalRepositoy.findByDataEmissaoBetween(any(),any()))
-					.thenReturn(Optional.of(notasTreinadas));
+		when(this.notaFiscalRepositoy.findByDataEmissaoBetween(any(),any(),any()))
+					.thenReturn(notasPaginadas);
 
 		
-		List<NotaFiscalVO> notasEncontradas = this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim);
+		Page<NotaFiscalVO> notasEncontradas = this.buscaNotaFiscalService.porPeriodoDataEmissao(dataInicio, dataFim, this.pageable);
 		
-		then(this.notaFiscalRepositoy).should(times(1)).findByDataEmissaoBetween(any(), any());
+		then(this.notaFiscalRepositoy).should(times(1)).findByDataEmissaoBetween(any(), any(),any());
 		
 		assertNotNull(notasEncontradas);
-		assertEquals(3, notasEncontradas.size());
+		assertEquals(3, notasEncontradas.getSize());
 		
 	}
 	
