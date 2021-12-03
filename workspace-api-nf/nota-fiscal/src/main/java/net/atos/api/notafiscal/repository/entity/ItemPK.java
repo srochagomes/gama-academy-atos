@@ -1,6 +1,7 @@
 package net.atos.api.notafiscal.repository.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -40,4 +41,25 @@ public class ItemPK implements Serializable{
 		this.notaFiscal = notaFiscal;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(notaFiscal, numeroItem);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemPK other = (ItemPK) obj;
+		return Objects.equals(notaFiscal, other.notaFiscal) && Objects.equals(numeroItem, other.numeroItem);
+	}
+
+	
+	
+	
+	
 }
