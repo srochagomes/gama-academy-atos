@@ -3,13 +3,14 @@ package net.atos.api.logistica.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +27,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import net.atos.api.logistica.domain.OrdemServicoVO;
+import net.atos.api.logistica.repository.LogisticaRepository;
+import net.atos.api.logistica.repository.entity.OrdemServicoEntity;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class LogisticaServiceTest {
+public class CriaOrdemServiceTest {
 	
-	private LogisticaService logisticaService;
+	private CriaOrdemService logisticaService;
 	
-	private Validator validator;	
+	private Validator validator;
+	
+	private LogisticaRepository logisticaRepository;
 	
 	@BeforeAll
 	public void inicioGeral() {
@@ -48,8 +54,13 @@ public class LogisticaServiceTest {
 	
 	@BeforeEach
 	public void iniciaCadaTeste() {
-	
-		logisticaService = new LogisticaService(this.validator); 
+
+		this.logisticaRepository = Mockito.mock(LogisticaRepository.class);
+		
+		
+		
+		logisticaService = new CriaOrdemService(this.validator, 
+				this.logisticaRepository); 
 	}
 
 	
@@ -61,7 +72,7 @@ public class LogisticaServiceTest {
 		OrdemServicoVO ordemServicoVO = null;
 		
 		var exception = assertThrows(IllegalArgumentException.class,()-> 
-					logisticaService.criarOrdemServico(ordemServicoVO));
+					logisticaService.processar(ordemServicoVO));
 		
 		assertNotNull(exception);
 	}
@@ -74,7 +85,7 @@ public class LogisticaServiceTest {
 		OrdemServicoVO ordemServicoVO = new OrdemServicoVO();
 		
 		var exception = assertThrows(ConstraintViolationException.class,()-> 
-					logisticaService.criarOrdemServico(ordemServicoVO));
+					logisticaService.processar(ordemServicoVO));
 		
 		assertNotNull(exception);
 		assertEquals(3, exception.getConstraintViolations().size());
@@ -92,7 +103,7 @@ public class LogisticaServiceTest {
 	}
 	
 	@Test
-	public void test_quandoRegistrarOrdemServicoEUniqueKeyViolar_lancarExcecao() {
+	public void test_quandoRegistrarOrdemServicoEUniqueKeyViolation_lancarExcecao() {
 		assertNotNull(logisticaService);
 		
 		OrdemServicoVO ordemServicoVO = new OrdemServicoVO();
@@ -100,9 +111,12 @@ public class LogisticaServiceTest {
 		ordemServicoVO.setIdNotaFiscal(1l);
 		ordemServicoVO.setValor(BigDecimal.ONE);
 		
+		when(this.logisticaRepository.save(any()))
+				.thenThrow(org.hibernate.exception.ConstraintViolationException.class);
+		
 		var exception = 
-				assertThrows(SQLIntegrityConstraintViolationException.class,
-						()->logisticaService.criarOrdemServico(ordemServicoVO));
+				assertThrows(org.hibernate.exception.ConstraintViolationException.class,
+						()->logisticaService.processar(ordemServicoVO));
 		
 		assertNotNull(exception);
 		
@@ -110,4 +124,28 @@ public class LogisticaServiceTest {
 		
 	}	
 
+	@Test
+	public void test_quandoRegistrarOrdemServico_criaOrdem() {
+		assertNotNull(logisticaService);
+		
+		OrdemServicoVO ordemServicoVO = new OrdemServicoVO();
+		ordemServicoVO.setDataEmissao(LocalDate.now());
+		ordemServicoVO.setIdNotaFiscal(1l);
+		ordemServicoVO.setValor(BigDecimal.ONE);
+		
+		OrdemServicoEntity entitySaved = new OrdemServicoEntity();
+		entitySaved.setId(1l);
+		
+		when(this.logisticaRepository.save(any()))
+				.thenReturn(entitySaved);
+		
+		OrdemServicoVO ordemServicoCriado = logisticaService.processar(ordemServicoVO);
+		
+		then(this.logisticaRepository).should(times(1)).save(any());
+				
+		assertNotNull(ordemServicoCriado);
+		assertEquals(1l,ordemServicoCriado.getId());		
+		
+	}	
+	
 }

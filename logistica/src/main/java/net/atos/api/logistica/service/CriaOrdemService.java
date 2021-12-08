@@ -4,27 +4,31 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.springframework.stereotype.Service;
 
 import net.atos.api.logistica.domain.OrdemServicoVO;
 import net.atos.api.logistica.factory.OrdemServicoFactory;
+import net.atos.api.logistica.repository.LogisticaRepository;
 import net.atos.api.logistica.repository.entity.OrdemServicoEntity;
 
 
 @Service
-public class LogisticaService {
+public class CriaOrdemService {
 	
 	private Validator validator;
+
+	private LogisticaRepository logisticaRepository; 
 	
 
-	public LogisticaService(Validator pValidator) {
+	public CriaOrdemService(Validator pValidator, 
+			LogisticaRepository pLogisticaRepository) {
 		this.validator = pValidator;
+		this.logisticaRepository = pLogisticaRepository;
 	}
 
-	public OrdemServicoVO criarOrdemServico(OrdemServicoVO ordemServicoVO) {
+	public OrdemServicoVO processar(OrdemServicoVO ordemServicoVO) {
 		Set<ConstraintViolation<OrdemServicoVO>> 
 			validateMessages = this.validator.validate(ordemServicoVO);
 		
@@ -34,12 +38,16 @@ public class LogisticaService {
 		
 		
 		OrdemServicoEntity entity = new OrdemServicoFactory(ordemServicoVO).toEntity();
-		
+
+		entity = this.logisticaRepository.save(entity);
+						
+		ordemServicoVO.setId(entity.getId());
 		
 		return ordemServicoVO;
 
 
 		
 	}
+	
 
 }
