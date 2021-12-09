@@ -1,9 +1,13 @@
 package net.atos.api.logistica.listern;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
 import net.atos.api.logistica.domain.NotaFiscalVO;
 import net.atos.api.logistica.domain.OrdemServicoVO;
 import net.atos.api.logistica.service.CriaOrdemService;
 
+@Component
 public class NotaFiscalVendaCriadaListern {
 	
 	private CriaOrdemService criaOrdemService;
@@ -12,6 +16,7 @@ public class NotaFiscalVendaCriadaListern {
 		this.criaOrdemService = pCriaOrdemService;
 	}
 	
+	@RabbitListener(queues = "cria-ordem-servico")
 	public void execute(NotaFiscalVO notaFiscal) {
 		
 		OrdemServicoVO orderServico = new OrdemServicoVO();

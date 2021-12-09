@@ -1,4 +1,4 @@
-package net.atos.api.notafiscal.controller.page;
+package net.atos.api.logistica.controller.page;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -19,17 +19,25 @@ import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
 import net.atos.api.notafiscal.factory.NotaFiscalVendaFactory;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+
 
 @Service
 public class CriaNotaFiscalVendaService implements CriaNotaFiscal{	
 	
 	private Validator validator;
 	
+	private RabbitTemplate rabbitTemplate;
+	
 	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	
-	public CriaNotaFiscalVendaService(Validator v, NotaFiscalVendaRepository repository) {
+	public CriaNotaFiscalVendaService(Validator v, 
+			NotaFiscalVendaRepository repository,
+			RabbitTemplate pRabbitTemplate) {
 		this.validator = v;		
-		this.notaFiscalRepositoy = repository; 	
+		this.notaFiscalRepositoy = repository;
+		this.rabbitTemplate = pRabbitTemplate;
 	}
 
 	@Transactional
@@ -54,7 +62,10 @@ public class CriaNotaFiscalVendaService implements CriaNotaFiscal{
 		
 		notaFiscalRepositoy.save(nfEntity);		
 		
-		notaFiscal.setId(nfEntity.getId());	
+		notaFiscal.setId(nfEntity.getId());
+		
+		this.rabbitTemplate.convertAndSend("nota-fiscal", 
+				"nf.created.venda", notaFiscal);
 		
 		return notaFiscal; 
 		

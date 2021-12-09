@@ -32,9 +32,10 @@ public class CancelaOrdemServicoVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrdemServicoVO other = (OrdemServicoVO) obj;
-		return Objects.equals(idNotaFiscal, other.getIdNotaFiscal());
+		CancelaOrdemServicoVO other = (CancelaOrdemServicoVO) obj;
+		return Objects.equals(idNotaFiscal, other.idNotaFiscal);
 	}
+
 
 
 }

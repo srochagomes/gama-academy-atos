@@ -3,10 +3,18 @@ package net.atos.api.logistica.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(value = Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NotaFiscalVO {
 
 	private Long id;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private LocalDate dataEmissao;
 	
 	
