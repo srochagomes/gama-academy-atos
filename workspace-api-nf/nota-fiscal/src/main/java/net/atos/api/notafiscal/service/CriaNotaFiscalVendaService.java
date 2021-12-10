@@ -3,7 +3,6 @@ package net.atos.api.notafiscal.service;
 import java.time.LocalDate;
 import java.util.Set;
 
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -11,33 +10,34 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
 import net.atos.api.notafiscal.domain.OperacaoFiscalEnum;
+import net.atos.api.notafiscal.events.NotaFiscalVendaCreatedEvent;
 import net.atos.api.notafiscal.factory.NotaFiscalVendaFactory;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalVendaEntity;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 
 
 @Service
 public class CriaNotaFiscalVendaService implements CriaNotaFiscal{	
 	
-	private Validator validator;
-	
-	private RabbitTemplate rabbitTemplate;
+	private Validator validator;	
 	
 	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	
+	private ApplicationEventPublisher eventPublisher;
+	
 	public CriaNotaFiscalVendaService(Validator v, 
-			NotaFiscalVendaRepository repository,
-			RabbitTemplate pRabbitTemplate) {
+			NotaFiscalVendaRepository repository,			
+			ApplicationEventPublisher pEventPublisher) {
 		this.validator = v;		
 		this.notaFiscalRepositoy = repository;
-		this.rabbitTemplate = pRabbitTemplate;
+		this.eventPublisher =  pEventPublisher;
 	}
 
 	@Transactional
@@ -64,8 +64,9 @@ public class CriaNotaFiscalVendaService implements CriaNotaFiscal{
 		
 		notaFiscal.setId(nfEntity.getId());
 		
-		this.rabbitTemplate.convertAndSend("nota-fiscal", 
-				"nf.created.venda", notaFiscal);
+		var notaFiscalVendaCreatedEvent = new NotaFiscalVendaCreatedEvent(notaFiscal);
+		
+		this.eventPublisher.publishEvent(notaFiscalVendaCreatedEvent);
 		
 		return notaFiscal; 
 		

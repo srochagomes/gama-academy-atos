@@ -60,7 +60,7 @@ public class NotaFiscalController {
 				.orElseThrow(() -> new BadRequestException("Operação Fiscan Não Existe."));
 
 		NotaFiscalVO notaFiscalCreated = criaNotaFiscal.persistir(notaFiscal);
-
+		
 		URI uri = MvcUriComponentsBuilder.fromController(getClass()).path("/{id}")
 				.buildAndExpand(notaFiscalCreated.getId()).toUri();
 

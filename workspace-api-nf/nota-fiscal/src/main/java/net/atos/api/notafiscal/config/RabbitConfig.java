@@ -23,14 +23,13 @@ public class RabbitConfig {
 	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setMessageConverter(this.jsonMessageConverter());
-		return rabbitTemplate;
-		
+		return rabbitTemplate;		
 	}
 	
 	@Bean 
 	public ObjectMapper objectMapper() {
 		return JsonMapper.builder()
-				.addModule(new JavaTimeModule())		        
+				.addModule(new JavaTimeModule())				
 		        .build();
 	}
 

@@ -36,6 +36,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.ApplicationEventPublisher;
 
 import net.atos.api.notafiscal.domain.ItemVO;
 import net.atos.api.notafiscal.domain.NotaFiscalVO;
@@ -56,7 +57,7 @@ public class CriaNotaFiscalVendaServiceTest {
 	
 	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	
-	private RabbitTemplate rabbitTemplate;
+	private ApplicationEventPublisher eventPublisher;
 	
 	
 	
@@ -72,9 +73,9 @@ public class CriaNotaFiscalVendaServiceTest {
 	public void iniciarCadaTeste() {
 		
 		this.notaFiscalRepositoy = Mockito.mock(NotaFiscalVendaRepository.class);
-		this.rabbitTemplate = Mockito.mock(RabbitTemplate.class);
+		this.eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
 		
-		criaNotaFiscal = new CriaNotaFiscalVendaService(validator, notaFiscalRepositoy, this.rabbitTemplate);	
+		criaNotaFiscal = new CriaNotaFiscalVendaService(validator, notaFiscalRepositoy, this.eventPublisher);	
 	}
 
 	@Test

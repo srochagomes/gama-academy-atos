@@ -5,9 +5,12 @@ import java.util.Optional;
 import javax.validation.Validator;
 import javax.ws.rs.BadRequestException;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.atos.api.notafiscal.domain.NotaFiscalVO;
+import net.atos.api.notafiscal.events.NotaFiscalVendaCanceledEvent;
 import net.atos.api.notafiscal.repository.NotaFiscalDevolucaoRepository;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
 import net.atos.api.notafiscal.repository.entity.NotaFiscalDevolucaoEntity;
@@ -20,17 +23,20 @@ public class CancelaNotaFiscalVendaService {
 	private BuscaNotaFiscalVendaService buscaNotaFiscalVendaService;
 	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	private NotaFiscalDevolucaoRepository notaFiscalDevolucaoRepository;
+	private ApplicationEventPublisher eventPublisher;
 
 
 	public CancelaNotaFiscalVendaService(Validator pValidator, 
 			NotaFiscalVendaRepository pNotaFiscalRepositoy,
 			BuscaNotaFiscalVendaService pBuscaNotaFiscalVendaService, 
-			NotaFiscalDevolucaoRepository pnotaFiscalDevolucaoRepository) {
+			NotaFiscalDevolucaoRepository pnotaFiscalDevolucaoRepository,
+			ApplicationEventPublisher pEventPublisher) {
 		
 		this.validator = pValidator;
 		this.notaFiscalRepositoy = pNotaFiscalRepositoy;
 		this.buscaNotaFiscalVendaService = pBuscaNotaFiscalVendaService;
 		this.notaFiscalDevolucaoRepository = pnotaFiscalDevolucaoRepository;
+		this.eventPublisher = pEventPublisher;
 	}
 
 	@Transactional
@@ -51,9 +57,14 @@ public class CancelaNotaFiscalVendaService {
 		}
 		
 		notaFiscalVendaEncontrada.setCancelada(Boolean.TRUE);
-		notaFiscalRepositoy.save(notaFiscalVendaEncontrada);		
+		notaFiscalRepositoy.save(notaFiscalVendaEncontrada);
 		
 		
+		NotaFiscalVO notaFiscalVO = new NotaFiscalVO(); 
+		notaFiscalVO.setId(id);
+		NotaFiscalVendaCanceledEvent event = new NotaFiscalVendaCanceledEvent(notaFiscalVO);  
+		
+		this.eventPublisher.publishEvent(event);
 		
 	}
 

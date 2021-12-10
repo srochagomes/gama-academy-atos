@@ -26,6 +26,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import net.atos.api.notafiscal.repository.NotaFiscalDevolucaoRepository;
 import net.atos.api.notafiscal.repository.NotaFiscalVendaRepository;
@@ -43,7 +44,7 @@ public class CancelaNotaFiscalVendaServiceTest {
 	private BuscaNotaFiscalVendaService buscaNotaFiscalVendaService;
 	private NotaFiscalVendaRepository notaFiscalRepositoy;
 	private NotaFiscalDevolucaoRepository notaFiscalDevolucaoRepository;
-	
+	private ApplicationEventPublisher eventPublisher;
 	
 	
 	@BeforeAll
@@ -60,12 +61,14 @@ public class CancelaNotaFiscalVendaServiceTest {
 		this.notaFiscalRepositoy = Mockito.mock(NotaFiscalVendaRepository.class);
 		this.buscaNotaFiscalVendaService = Mockito.mock(BuscaNotaFiscalVendaService.class);
 		this.notaFiscalDevolucaoRepository = Mockito.mock(NotaFiscalDevolucaoRepository.class);
+		this.eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
 		
 		this.cancelaNotaFiscalVendaService = 
 				new CancelaNotaFiscalVendaService(this.validator,
 													this.notaFiscalRepositoy,
 													this.buscaNotaFiscalVendaService,
-													this.notaFiscalDevolucaoRepository);	
+													this.notaFiscalDevolucaoRepository, 
+													this.eventPublisher);	
 	}
 
 	@Test	

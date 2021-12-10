@@ -1,11 +1,13 @@
 package net.atos.api.logistica.listern;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 import net.atos.api.logistica.domain.CancelaOrdemServicoVO;
 import net.atos.api.logistica.domain.NotaFiscalVO;
 import net.atos.api.logistica.service.CancelaOrdemService;
 
+@Component
 public class NotaFiscalVendaCanceladaListern {
 	
 	private CancelaOrdemService cancelaOrdemService;

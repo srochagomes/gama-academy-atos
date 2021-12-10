@@ -1,5 +1,6 @@
 package net.atos.api.logistica.service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -39,6 +40,7 @@ public class CriaOrdemService {
 		
 		OrdemServicoEntity entity = new OrdemServicoFactory(ordemServicoVO).toEntity();
 
+		entity.setDataEvento(LocalDateTime.now());
 		entity = this.logisticaRepository.save(entity);
 						
 		ordemServicoVO.setId(entity.getId());
