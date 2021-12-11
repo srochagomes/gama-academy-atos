@@ -164,8 +164,6 @@ public class CancelaNotaFiscalVendaServiceTest {
 		then(this.notaFiscalDevolucaoRepository).should(times(1))
 										.findByIdNotaFiscalVenda(anyLong())	;	
 		
-		then(notaFiscalRepositoy).should(times(1)).save(notaFiscalVendaTreinada);
-		
 		assertEquals(Boolean.TRUE, notaFiscalVendaTreinada.getCancelada());
 		
 	}

@@ -57,8 +57,6 @@ public class CancelaNotaFiscalVendaService {
 		}
 		
 		notaFiscalVendaEncontrada.setCancelada(Boolean.TRUE);
-		notaFiscalRepositoy.save(notaFiscalVendaEncontrada);
-		
 		
 		NotaFiscalVO notaFiscalVO = new NotaFiscalVO(); 
 		notaFiscalVO.setId(id);

@@ -60,7 +60,8 @@ public class CriaNotaFiscalVendaService implements CriaNotaFiscal{
 		NotaFiscalVendaEntity nfEntity = new NotaFiscalVendaFactory(notaFiscal)
 													.toEntity();				
 		
-		notaFiscalRepositoy.save(nfEntity);		
+		nfEntity = notaFiscalRepositoy.save(nfEntity);		
+		
 		
 		notaFiscal.setId(nfEntity.getId());
 		

@@ -203,6 +203,11 @@ public class CriaNotaFiscalVendaServiceTest {
 		item.setValor(BigDecimal.ONE);
 		notaFiscal.add(item);
 		
+		NotaFiscalVendaEntity nfEntity = new NotaFiscalVendaEntity();
+		nfEntity.setId(1l);
+		
+		when(notaFiscalRepositoy.save(any())).thenReturn(nfEntity);
+		
 		criaNotaFiscal.persistir(notaFiscal);
 		
 		then(notaFiscalRepositoy).should(times(1)).save(any());
