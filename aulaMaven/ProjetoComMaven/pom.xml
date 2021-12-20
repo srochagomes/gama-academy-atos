@@ -6,8 +6,9 @@
   
   <properties>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.source>1.7aplicação</maven.compiler.source>
   </properties>
+
   
   <dependencies>
   	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
