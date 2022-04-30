@@ -1,1 +1,2 @@
-# gama-academy-atos
+# Gama Academy Java - Turma Acelera Atos
+
